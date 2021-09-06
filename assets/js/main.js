@@ -31,6 +31,14 @@ bgd.addEventListener("load", function () {
     loaded++;
 })
 
+let tlt = new Image();
+tlt.src = "/assets/img/title.png"
+tlt.addEventListener("load", function () {
+    var trt = Math.max((canvas.width / 2) / tlt.width, (canvas.height/5) / tlt.height);
+    ctx.drawImage(tlt, (canvas.width - tlt.width * trt)/2, 50, tlt.width * trt, tlt.height * trt);
+    loaded++;
+})
+
 // draw grass
 let grs = new Image();
 grs.src = "/assets/img/grass.png";
@@ -48,12 +56,20 @@ grs.addEventListener("load", function () {
 
 //init player------------------------------------------------------------
 
+let telp = new Image();
+let telrt;
+telp.src = "/assets/img/teleporter.png"
+telp.addEventListener("load", function () {
+    loaded++;
+})
+
 let prt;
 
 let player = new Image();
 player.src = "/assets/img/frame1.png";
 player.addEventListener("load", function () {
     prt = (canvas.height / 5) / player.height;
+    telrt = prt/6;
     loaded++;
 })
 
@@ -118,8 +134,11 @@ document.addEventListener('keyup', function (event) {
 
 
 let grassDrawn = false;
+let onTelp = false;
+
+
 function update() {
-    if (loaded >= 15) {
+    if (loaded >= 17) {
 
         if (!grassDrawn) {
             for (let i = 0; i < canvas.width; i += grs.width * rt) {
@@ -136,7 +155,14 @@ function update() {
         playerX = Math.min(playerX, canvas.width - player.width * prt);
         playerY = Math.min(canvas.height - grs.height * rt - player.height * prt, playerY + dY);
 
+        let telX = canvas.width - telp.width * telrt - 100;
+        let telY = canvas.height - grs.height * rt - telp.height * telrt + 15;
 
+        if (playerX >= telX - player.width * prt/2 && playerX <= telX + telp.width * telrt - player.width*prt/2 && playerY == canvas.height - grs.height * rt - player.height * prt) {
+            onTelp = true;
+            uctx.font = 3*prt + 'px sans serif';
+            uctx.fillText('[1] to travel down', telX-canvas.width / 25, playerY - 10);
+        }
 
 
         //jump/fall --------------
@@ -156,6 +182,7 @@ function update() {
                 dY = Math.min(dY * (1.05 + (prt / 500)), 10);
             }
         }
+
 
 
 
@@ -180,11 +207,12 @@ function update() {
             }
 
         }
+        uctx.drawImage(telp, telX, telY, telp.width*telrt, telp.height * telrt)
         uctx.drawImage(player, playerX, playerY, player.width * prt, player.height * prt);
 
         if (!pressed) {
-            uctx.font = '30px serif';
-            uctx.fillText('[W],[A] to move, [D] to jump', playerX, playerY - 20);
+            uctx.font = 3*prt + 'px sans serif';
+            uctx.fillText('[A],[D] to move, [W] to jump', playerX, playerY - 20);
         }
     }
 }
