@@ -16,38 +16,39 @@ uctx.imageSmoothingEnabled = false;
 
 
 //draw background
-if (level == 1) {
-    let bgd = new Image();
-    bgd.src = "/assets/img/background.png";
+let bgd = new Image();
+bgd.src = "/assets/img/background.png";
+var ratio;
+
+bgd.addEventListener("load", function () {
     var hRatio = canvas.width / bgd.width;
     var vRatio = canvas.height / bgd.height;
-    var ratio = Math.max(hRatio, vRatio);
-
-    bgd.addEventListener("load", function () {
-        ctx.drawImage(bgd, 0, 0, bgd.width * ratio, bgd.height * ratio);
-    })
-}
+    ratio = Math.max(hRatio, vRatio);
+    ctx.drawImage(bgd, 0, 0, bgd.width * ratio, bgd.height * ratio);
+})
 
 
 let grs = new Image();
 grs.src = "/assets/img/grass.png";
 
-let rt = (canvas.height / 6) / grs.height;
+let rt;
 
 //draw grass
-if (level == 1) {
-    grs.addEventListener("load", function () {
-        for (let i = 0; i < canvas.width; i += grs.width * rt) {
-            ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
-        }
-    })
+grs.addEventListener("load", function () {
+    rt = (canvas.height / 6) / grs.height;
+    for (let i = 0; i < canvas.width; i += grs.width * rt) {
+        ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
+    }
+})
 
-}
 
+let prt;
 
 let player = new Image();
 player.src = "/assets/img/frame1.png";
-let prt = (canvas.height / 5) / player.height;
+player.addEventListener("load", function () {
+    prt = (canvas.height / 5) / player.height;
+})
   
 
 let frame = 0;
@@ -83,6 +84,20 @@ document.addEventListener('keyup', function (event) {
     }
 })
 
+let players = [], playerfs = [];
+for (let i = 1; i < 7; i++) {
+    let pl = new Image();
+    pl.src = "/assets/img/frame" + i + ".png";
+    pl.addEventListener("load", function () {
+        players.push(pl);
+    })
+    let pl2 = new Image();
+    pl2.src = "/assets/img/frame" + i + "f.png";
+    pl2.addEventListener("load", function () {
+        playerfs.push(pl2);
+    })
+}
+
 
 function update() {
     uctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -104,15 +119,15 @@ function update() {
             dY = 0;
         } else {
             falling = true;
-            dY *= 1.05 + (prt/500);
+            dY = Math.min(dY * (1.05 + (prt/500)), 10);
         }
     }
 
     if (dX == 0) {
         if (flipped) {
-            player.src = "/assets/img/frame6f.png";
+            player = playerfs[5];
         } else {
-            player.src = "/assets/img/frame6.png";
+            player = players[5];
         }
     } else {
         timer++;
@@ -121,9 +136,9 @@ function update() {
             frame = (frame + 1) % 6;
         }
         if (flipped) {
-            player.src = "/assets/img/frame" + (frame + 1) + "f.png";
+            player = playerfs[frame];
         } else {
-            player.src = "/assets/img/frame" + (frame + 1) + ".png";
+            player = players[frame];
         }
 
     }
