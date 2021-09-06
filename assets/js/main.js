@@ -262,6 +262,8 @@ function update() {
                 }
             }
 
+            ctx.drawImage(tlt, (canvas.width - tlt.width * trt)/2, 50, tlt.width * trt, tlt.height * trt);
+
             grassDrawn = true;
         }
         
