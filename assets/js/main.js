@@ -13,6 +13,14 @@ let uctx = canvas2.getContext('2d');
 uctx.canvas.width  = window.innerWidth;
 uctx.canvas.height = window.innerHeight;
 uctx.imageSmoothingEnabled = false;
+
+let canvas3 = document.getElementById('bottom');
+let bctx = canvas3.getContext('2d');
+bctx.canvas.width  = window.innerWidth;
+bctx.canvas.height = window.innerHeight;
+bctx.imageSmoothingEnabled = false;
+
+bctx.translate(0, canvas.height);
 //------------------------------------------------------------
 
 
@@ -43,11 +51,26 @@ tlt.addEventListener("load", function () {
 // draw grass
 let grs = new Image();
 grs.src = "/assets/img/grass.png";
-
+let lastGrass = 0;
 let rt;
 
 grs.addEventListener("load", function () {
     rt = (canvas.height / 6) / grs.height;
+    for (let i = 0; i < canvas.width; i += grs.width * rt) {
+        lastGrass++;
+    }
+    loaded++;
+})
+
+let drt = new Image();
+drt.src = "/assets/img/dirt.png";
+drt.addEventListener("load", function () {
+    loaded++;
+})
+
+let wll = new Image();
+wll.src = "/assets/img/wall.png";
+wll.addEventListener("load", function () {
     loaded++;
 })
 //------------------------------------------------------------
@@ -70,7 +93,6 @@ let player = new Image();
 player.src = "/assets/img/frame1.png";
 player.addEventListener("load", function () {
     prt = (canvas.height / 5) / player.height;
-    telrt = prt/6;
     loaded++;
 })
 
@@ -129,7 +151,7 @@ document.addEventListener('keydown', function (event) {
         if (level == 1) {
             tpDown = true;
             tpY = -4;
-            goalY = -canvas.height;
+            goalY = parseInt(-canvas.height * 3/4);
         } else if (level == 2) {
             goalY = 0;
             tpY = 4;
@@ -151,16 +173,65 @@ let grassDrawn = false;
 let onTelp = false;
 
 
+function draw() {
+    curY += tpY;
+    ctx.translate(0, tpY);
+    ctx.clearRect(0, -curY, canvas.width, canvas.height);
+    ctx.drawImage(bgd, 0, -curY, bgd.width * ratio, bgd.height * ratio);
+    let cnt = 0;
+    for (let i = 0; i < canvas.width; i += grs.width * rt) {
+        cnt++;
+        if (cnt > lastGrass-3 && cnt != lastGrass) {
+            ctx.drawImage(wll, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
+        } else {
+            ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
+        }
+    }
+    ctx.drawImage(tlt, (canvas.width - tlt.width * trt) / 2, 50, tlt.width * trt, tlt.height * trt);
+
+    bctx.translate(0, tpY);
+    bctx.clearRect(0, curY, canvas.width, canvas.height);
+    for (let j = 0; j < canvas.height; j += grs.height * rt) {
+        for (let i = 0; i < canvas.width; i += grs.width * rt) {
+            if (i != 0 && i + grs.width * rt < canvas.width) {
+                bctx.drawImage(wll, i, j, wll.width * rt, wll.height * rt);
+            } else {
+                bctx.drawImage(drt, i, j, drt.width * rt, drt.height * rt);
+            }
+        }
+    }
+
+    for (let i = 0; i < canvas.width; i += grs.width * rt) {
+        bctx.drawImage(drt, i, (canvas.height*3/4) - drt.height * rt, drt.width * rt, drt.height * rt);
+    }
+    for (let i = 0; i < canvas.width; i += grs.width * rt) {
+        bctx.drawImage(drt, i, (canvas.height*3/4), drt.width * rt, drt.height * rt);
+    }
+}
+
+
 function update() {
-    if (loaded >= 17) {
+    if (loaded >= 19) {
+
+        telrt = (2 * grs.width * rt) / telp.width;
+        
 
         if (!grassDrawn) {
+            let cnt = 0;
             for (let i = 0; i < canvas.width; i += grs.width * rt) {
-                ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
+                cnt++;
+                if (cnt > lastGrass-3 && cnt != lastGrass) {
+                    ctx.drawImage(wll, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
+                } else {
+                    ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
+                }
             }
 
             grassDrawn = true;
         }
+
+        let telX = lastGrass * grs.width * rt - grs.width * rt * 3;
+        let telY = canvas.height - grs.height * rt - telp.height * telrt + prt*2;
 
         //calc position
         uctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -169,10 +240,8 @@ function update() {
         playerX = Math.min(playerX, canvas.width - player.width * prt);
         playerY = Math.min(canvas.height - grs.height * rt - player.height * prt, playerY + dY);
 
-        let telX = canvas.width - telp.width * telrt - 100;
-        let telY = canvas.height - grs.height * rt - telp.height * telrt + 15;
 
-        if (!tpDown && playerX >= telX - player.width * prt/2 && playerX <= telX + telp.width * telrt - player.width*prt/2 && playerY == canvas.height - grs.height * rt - player.height * prt) {
+        if (!tpDown && !tpUp && playerX >= telX - player.width * prt/2 && playerX <= telX + telp.width * telrt - player.width*prt/2 && playerY == canvas.height - grs.height * rt - player.height * prt) {
             onTelp = true;
             uctx.font = 3 * prt + 'px sans serif';
             if (level == 1) {
@@ -202,8 +271,6 @@ function update() {
         }
 
 
-
-
         
         //render player --------------
         if (dX == 0) {
@@ -225,7 +292,8 @@ function update() {
             }
 
         }
-        uctx.drawImage(telp, telX, telY, telp.width*telrt, telp.height * telrt)
+        uctx.drawImage(telp, telX, telY, telp.width * telrt, telp.height * telrt)
+        //uctx.drawImage(drt, telX, telY + telp.height * telrt, telp.width, telp.width);
         uctx.drawImage(player, playerX, playerY, player.width * prt, player.height * prt);
 
         if (!pressed) {
@@ -237,15 +305,8 @@ function update() {
 
         if (tpDown) {
             if (curY > goalY) {
-                console.log(curY);
-                curY += tpY;
-                ctx.translate(0, tpY);
-                ctx.clearRect(0, -curY, canvas.width, canvas.height);
-                ctx.drawImage(bgd, 0, -curY, bgd.width * ratio, bgd.height * ratio);
-                for (let i = 0; i < canvas.width; i += grs.width * rt) {
-                    ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
-                }
-                ctx.drawImage(tlt, (canvas.width - tlt.width * trt) / 2, 50, tlt.width * trt, tlt.height * trt);
+                draw();
+
             } else {
                 tpDown = false;
                 tpY = 0;
@@ -253,15 +314,9 @@ function update() {
             }
         } else if (tpUp) {
             if (curY < goalY) {
-                curY += tpY;
-                ctx.translate(0, tpY);
-                ctx.clearRect(0, -curY, canvas.width, canvas.height);
-                ctx.drawImage(bgd, 0, -curY, bgd.width * ratio, bgd.height * ratio);
-                for (let i = 0; i < canvas.width; i += grs.width * rt) {
-                    ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
-                }
-                ctx.drawImage(tlt, (canvas.width - tlt.width * trt) / 2, 50, tlt.width * trt, tlt.height * trt);
+                draw();
             } else {
+                bctx.clearRect(0, -4, canvas.width, canvas.height);
                 tpUp = false;
                 tpY = 0;
                 level = 1;
