@@ -39,6 +39,8 @@ bgd.addEventListener("load", function () {
     loaded++;
 })
 
+
+//big floating cloud thing
 let tlt = new Image();
 tlt.src = "/assets/img/title.png"
 var trt;
@@ -62,6 +64,7 @@ grs.addEventListener("load", function () {
     loaded++;
 })
 
+//dirt and wall
 let drt = new Image();
 drt.src = "/assets/img/dirt.png";
 drt.addEventListener("load", function () {
@@ -79,7 +82,7 @@ wll.addEventListener("load", function () {
 
 
 //init player------------------------------------------------------------
-
+//teleporter (updates with player)
 let telp = new Image();
 let telrt;
 telp.src = "/assets/img/teleporter.png"
@@ -87,6 +90,8 @@ telp.addEventListener("load", function () {
     loaded++;
 })
 
+
+//main player for calculations
 let prt;
 
 let player = new Image();
@@ -97,6 +102,7 @@ player.addEventListener("load", function () {
 })
 
 
+//player walking frames
 let players = [0, 0, 0, 0, 0, 0], playerfs = [0, 0, 0, 0, 0, 0];
 
 for (let i = 1; i < 7; i++) {
@@ -121,18 +127,23 @@ for (let i = 1; i < 7; i++) {
 let frame = 0;
 let timer = 0;
 
+//movement vars
 let playerX = 20, playerY = canvas.height / 4, dX = 0, dY = 1;
 let flipped = false;
 let falling = true;
 let jumping = false;
 let pressed = false;
 
+//teleporting vars
 let tpDown = false, tpUp = false, tpY = 0, curY = 0, goalY = 0;
 
 document.addEventListener('keydown', function (event) {
+    //cancel instructions
     if (event.key == 'a' || event.key == 'd' || event.key == 'w') {
         pressed = true;
     }
+
+    //restrict movement while teleporting
     if (!tpDown && !tpUp) {
         if (event.key == 'a') {
             dX = -0.6 * prt;
@@ -150,12 +161,16 @@ document.addEventListener('keydown', function (event) {
             flipped = false;
         }
     }
+
+    //jump
     if (event.key == 'w') {
         if(!jumping && !falling) {
             dY = -2 * prt;
             jumping = true;
         }
     }
+
+    //teleport up/down
     if (event.key == '1' && onTelp) {
         if (level == 1) {
             tpDown = true;
@@ -169,6 +184,7 @@ document.addEventListener('keydown', function (event) {
     }
 })
 
+//stop moving
 document.addEventListener('keyup', function (event) {
     if (event.key == 'a' || event.key == 'd') {
         dX = 0;
@@ -183,9 +199,12 @@ let onTelp = false;
 
 
 function draw() {
+    //translate top level up/down
     curY += tpY;
     ctx.translate(0, tpY);
     ctx.clearRect(0, -curY, canvas.width, canvas.height);
+
+    //redraw background and grass
     ctx.drawImage(bgd, 0, -curY, bgd.width * ratio, bgd.height * ratio);
     let cnt = 0;
     for (let i = 0; i < canvas.width; i += grs.width * rt) {
@@ -198,8 +217,12 @@ function draw() {
     }
     ctx.drawImage(tlt, (canvas.width - tlt.width * trt) / 2, 50, tlt.width * trt, tlt.height * trt);
 
+
+    //translate bottom level up/down
     bctx.translate(0, tpY);
     bctx.clearRect(0, curY, canvas.width, canvas.height);
+
+    //draw wall
     for (let j = 0; j < canvas.height; j += grs.height * rt) {
         for (let i = 0; i < canvas.width; i += grs.width * rt) {
             if (i != 0 && i + grs.width * rt < canvas.width) {
@@ -210,6 +233,7 @@ function draw() {
         }
     }
 
+    //draw floor (second is to prevent rounding error)
     for (let i = 0; i < canvas.width; i += grs.width * rt) {
         bctx.drawImage(drt, i, (canvas.height*3/4) - drt.height * rt, drt.width * rt, drt.height * rt);
     }
@@ -219,12 +243,14 @@ function draw() {
 }
 
 
+//main update -------------------------------------------------------------
 function update() {
+    //make sure all images are loaded
     if (loaded >= 19) {
 
         telrt = (2 * grs.width * rt) / telp.width;
         
-
+        //draw grass when it loads
         if (!grassDrawn) {
             let cnt = 0;
             for (let i = 0; i < canvas.width; i += grs.width * rt) {
@@ -238,7 +264,8 @@ function update() {
 
             grassDrawn = true;
         }
-
+        
+        //teleporter position
         let telX = lastGrass * grs.width * rt - grs.width * rt * 3;
         let telY = canvas.height - grs.height * rt - telp.height * telrt + prt*2;
 
@@ -254,9 +281,9 @@ function update() {
             onTelp = true;
             uctx.font = 3 * prt + 'px sans serif';
             if (level == 1) {
-                uctx.fillText('[1] to travel down', telX - canvas.width / 25, playerY - 10);
+                uctx.fillText('[1] to travel down', telX, playerY - 10);
             } else if (level == 2) {
-                uctx.fillText('[1] to travel up', telX - canvas.width / 25, playerY - 10);
+                uctx.fillText('[1] to travel up', telX, playerY - 10);
             }
         }
 
@@ -301,17 +328,20 @@ function update() {
             }
 
         }
-        uctx.drawImage(telp, telX, telY, telp.width * telrt, telp.height * telrt)
-        //uctx.drawImage(drt, telX, telY + telp.height * telrt, telp.width, telp.width);
-        uctx.drawImage(player, playerX, playerY, player.width * prt, player.height * prt);
 
+        //draw teleporter and player
+        uctx.drawImage(telp, telX, telY, telp.width * telrt, telp.height * telrt)
+        uctx.drawImage(player, playerX, playerY, player.width * prt, player.height * prt);
+        
+
+        //initial instructions
         if (!pressed) {
             uctx.font = 3*prt + 'px sans serif';
             uctx.fillText('[A],[D] to move, [W] to jump', playerX, playerY - 20);
         }
 
 
-
+        //handle teleporting
         if (tpDown) {
             if (curY > goalY) {
                 draw();
@@ -335,5 +365,5 @@ function update() {
 }
 
 
-
+//100fps :)
 setInterval(update, 10);
