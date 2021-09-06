@@ -33,8 +33,9 @@ bgd.addEventListener("load", function () {
 
 let tlt = new Image();
 tlt.src = "/assets/img/title.png"
+var trt;
 tlt.addEventListener("load", function () {
-    var trt = Math.max((canvas.width / 2) / tlt.width, (canvas.height/5) / tlt.height);
+    trt = Math.max((canvas.width / 2) / tlt.width, (canvas.height/5) / tlt.height);
     ctx.drawImage(tlt, (canvas.width - tlt.width * trt)/2, 50, tlt.width * trt, tlt.height * trt);
     loaded++;
 })
@@ -104,22 +105,35 @@ let falling = true;
 let jumping = false;
 let pressed = false;
 
+let tpDown = false, tpUp = false, tpY = 0, curY = 0, goalY = 0;
+
 document.addEventListener('keydown', function (event) {
     if (event.key == 'a' || event.key == 'd' || event.key == 'w') {
         pressed = true;
     }
     if (event.key == 'a') {
-        dX = -0.5 * prt;
+        dX = -0.6 * prt;
         flipped = true;
     }
     if (event.key == 'd') {
-        dX = 0.5 * prt;
+        dX = 0.6 * prt;
         flipped = false;
     }
     if (event.key == 'w') {
         if(!jumping && !falling) {
             dY = -2 * prt;
             jumping = true;
+        }
+    }
+    if (event.key == '1' && onTelp) {
+        if (level == 1) {
+            tpDown = true;
+            tpY = -4;
+            goalY = -canvas.height;
+        } else if (level == 2) {
+            goalY = 0;
+            tpY = 4;
+            tpUp = true;
         }
     }
 })
@@ -158,10 +172,14 @@ function update() {
         let telX = canvas.width - telp.width * telrt - 100;
         let telY = canvas.height - grs.height * rt - telp.height * telrt + 15;
 
-        if (playerX >= telX - player.width * prt/2 && playerX <= telX + telp.width * telrt - player.width*prt/2 && playerY == canvas.height - grs.height * rt - player.height * prt) {
+        if (!tpDown && playerX >= telX - player.width * prt/2 && playerX <= telX + telp.width * telrt - player.width*prt/2 && playerY == canvas.height - grs.height * rt - player.height * prt) {
             onTelp = true;
-            uctx.font = 3*prt + 'px sans serif';
-            uctx.fillText('[1] to travel down', telX-canvas.width / 25, playerY - 10);
+            uctx.font = 3 * prt + 'px sans serif';
+            if (level == 1) {
+                uctx.fillText('[1] to travel down', telX - canvas.width / 25, playerY - 10);
+            } else if (level == 2) {
+                uctx.fillText('[1] to travel up', telX - canvas.width / 25, playerY - 10);
+            }
         }
 
 
@@ -213,6 +231,41 @@ function update() {
         if (!pressed) {
             uctx.font = 3*prt + 'px sans serif';
             uctx.fillText('[A],[D] to move, [W] to jump', playerX, playerY - 20);
+        }
+
+
+
+        if (tpDown) {
+            if (curY > goalY) {
+                console.log(curY);
+                curY += tpY;
+                ctx.translate(0, tpY);
+                ctx.clearRect(0, -curY, canvas.width, canvas.height);
+                ctx.drawImage(bgd, 0, -curY, bgd.width * ratio, bgd.height * ratio);
+                for (let i = 0; i < canvas.width; i += grs.width * rt) {
+                    ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
+                }
+                ctx.drawImage(tlt, (canvas.width - tlt.width * trt) / 2, 50, tlt.width * trt, tlt.height * trt);
+            } else {
+                tpDown = false;
+                tpY = 0;
+                level = 2;
+            }
+        } else if (tpUp) {
+            if (curY < goalY) {
+                curY += tpY;
+                ctx.translate(0, tpY);
+                ctx.clearRect(0, -curY, canvas.width, canvas.height);
+                ctx.drawImage(bgd, 0, -curY, bgd.width * ratio, bgd.height * ratio);
+                for (let i = 0; i < canvas.width; i += grs.width * rt) {
+                    ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
+                }
+                ctx.drawImage(tlt, (canvas.width - tlt.width * trt) / 2, 50, tlt.width * trt, tlt.height * trt);
+            } else {
+                tpUp = false;
+                tpY = 0;
+                level = 1;
+            }
         }
     }
 }
