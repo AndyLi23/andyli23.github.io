@@ -1,4 +1,5 @@
 let level = 1;
+let l1 = false, l2 = false, l3 = false;
 
 //setup
 let canvas = document.getElementById('main');
@@ -25,6 +26,7 @@ bgd.addEventListener("load", function () {
     var vRatio = canvas.height / bgd.height;
     ratio = Math.max(hRatio, vRatio);
     ctx.drawImage(bgd, 0, 0, bgd.width * ratio, bgd.height * ratio);
+    l1 = true;
 })
 
 
@@ -39,6 +41,7 @@ grs.addEventListener("load", function () {
     for (let i = 0; i < canvas.width; i += grs.width * rt) {
         ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
     }
+    l2 = true;
 })
 
 
@@ -48,6 +51,7 @@ let player = new Image();
 player.src = "/assets/img/frame1.png";
 player.addEventListener("load", function () {
     prt = (canvas.height / 5) / player.height;
+    l3 = true;
 })
   
 
@@ -58,8 +62,6 @@ let playerX = 20, playerY = canvas.height / 4, dX = 0, dY = 1;
 let flipped = false;
 let falling = true;
 let jumping = false;
-
-console.log(prt);
 
 document.addEventListener('keydown', function (event) {
     if (event.key == 'a') {
@@ -85,66 +87,78 @@ document.addEventListener('keyup', function (event) {
 })
 
 let players = [], playerfs = [];
+
+let l4 = 0, l5 = 0;
+
 for (let i = 1; i < 7; i++) {
     let pl = new Image();
     pl.src = "/assets/img/frame" + i + ".png";
     pl.addEventListener("load", function () {
         players.push(pl);
+        l4++;
     })
     let pl2 = new Image();
     pl2.src = "/assets/img/frame" + i + "f.png";
     pl2.addEventListener("load", function () {
         playerfs.push(pl2);
+        l5++;
     })
 }
 
 
 function update() {
-    uctx.clearRect(0, 0, canvas.width, canvas.height);
-    playerX += dX;
-    playerX = Math.max(playerX, 0);
-    playerX = Math.min(playerX, canvas.width - player.width * prt);
-    playerY = Math.min(canvas.height - grs.height * rt - player.height * prt, playerY + dY);
+    if (l1 && l2 && l3 && l4 > 5 && l5 > 5) {
+        uctx.clearRect(0, 0, canvas.width, canvas.height);
+        playerX += dX;
+        playerX = Math.max(playerX, 0);
+        playerX = Math.min(playerX, canvas.width - player.width * prt);
+        playerY = Math.min(canvas.height - grs.height * rt - player.height * prt, playerY + dY);
 
-    if (jumping) {
-        dY *= 0.9;
-        if (dY > -1) {
-            jumping = false;
-            falling = true;
-            dY = 2;
-        }
-    } else {
-        if (playerY == canvas.height - grs.height * rt - player.height * prt) {
-            falling = false;
-            dY = 0;
+        if (jumping) {
+            dY *= 0.9;
+            if (dY > -1) {
+                jumping = false;
+                falling = true;
+                dY = 2;
+            }
         } else {
-            falling = true;
-            dY = Math.min(dY * (1.05 + (prt/500)), 10);
+            if (playerY == canvas.height - grs.height * rt - player.height * prt) {
+                falling = false;
+                dY = 0;
+            } else {
+                falling = true;
+                dY = Math.min(dY * (1.05 + (prt / 500)), 10);
+            }
         }
+
+        if (dX == 0) {
+            if (flipped) {
+                player = playerfs[5];
+            } else {
+                player = players[5];
+            }
+        } else {
+            timer++;
+            if (timer == 10) {
+                timer = 0;
+                frame = (frame + 1) % 6;
+            }
+            if (flipped) {
+                player = playerfs[frame];
+            } else {
+                player = players[frame];
+            }
+
+        }
+        uctx.drawImage(player, playerX, playerY, player.width * prt, player.height * prt);
     }
-
-    if (dX == 0) {
-        if (flipped) {
-            player = playerfs[5];
-        } else {
-            player = players[5];
-        }
-    } else {
-        timer++;
-        if (timer == 10) {
-            timer = 0;
-            frame = (frame + 1) % 6;
-        }
-        if (flipped) {
-            player = playerfs[frame];
-        } else {
-            player = players[frame];
-        }
-
-    }
-    uctx.drawImage(player, playerX, playerY, player.width * prt, player.height * prt);
 }
 
+
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 setInterval(update, 10);
 
