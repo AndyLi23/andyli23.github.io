@@ -39,9 +39,6 @@ let rt;
 
 grs.addEventListener("load", function () {
     rt = (canvas.height / 6) / grs.height;
-    for (let i = 0; i < canvas.width; i += grs.width * rt) {
-        ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
-    }
     loaded++;
 })
 //------------------------------------------------------------
@@ -115,8 +112,17 @@ document.addEventListener('keyup', function (event) {
 //------------------------------------------------------------
 
 
+
+let grassDrawn = false;
 function update() {
     if (loaded >= 15) {
+
+        if (!grassDrawn) {
+            for (let i = 0; i < canvas.width; i += grs.width * rt) {
+                ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
+            }
+            grassDrawn = true;
+        } 
 
         //calc position
         uctx.clearRect(0, 0, canvas.width, canvas.height);
