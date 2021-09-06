@@ -47,6 +47,7 @@ if (level == 1) {
 
 let player = new Image();
 player.src = "/assets/img/frame1.png";
+let prt = (canvas.height / 5) / player.height;
   
 
 let frame = 0;
@@ -57,18 +58,20 @@ let flipped = false;
 let falling = true;
 let jumping = false;
 
+console.log(prt);
+
 document.addEventListener('keydown', function (event) {
     if (event.key == 'a') {
-        dX = -3;
+        dX = -0.5 * prt;
         flipped = true;
     }
     if (event.key == 'd') {
-        dX = 3;
+        dX = 0.5 * prt;
         flipped = false;
     }
     if (event.key == 'w') {
         if(!jumping && !falling) {
-            dY = -10;
+            dY = -2 * prt;
             jumping = true;
         }
     }
@@ -84,7 +87,9 @@ document.addEventListener('keyup', function (event) {
 function update() {
     uctx.clearRect(0, 0, canvas.width, canvas.height);
     playerX += dX;
-    playerY = Math.min(canvas.height - grs.height * rt - player.height * 8, playerY + dY);
+    playerX = Math.max(playerX, 0);
+    playerX = Math.min(playerX, canvas.width - player.width * prt);
+    playerY = Math.min(canvas.height - grs.height * rt - player.height * prt, playerY + dY);
 
     if (jumping) {
         dY *= 0.9;
@@ -94,12 +99,12 @@ function update() {
             dY = 2;
         }
     } else {
-        if (playerY == canvas.height - grs.height * rt - player.height * 8) {
+        if (playerY == canvas.height - grs.height * rt - player.height * prt) {
             falling = false;
             dY = 0;
         } else {
             falling = true;
-            dY *= 1.05;
+            dY *= 1.05 + (prt/500);
         }
     }
 
@@ -122,7 +127,7 @@ function update() {
         }
 
     }
-    uctx.drawImage(player, playerX, playerY, player.width * 8, player.height * 8);
+    uctx.drawImage(player, playerX, playerY, player.width * prt, player.height * prt);
 }
 
 
