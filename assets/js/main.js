@@ -133,13 +133,22 @@ document.addEventListener('keydown', function (event) {
     if (event.key == 'a' || event.key == 'd' || event.key == 'w') {
         pressed = true;
     }
-    if (event.key == 'a') {
-        dX = -0.6 * prt;
-        flipped = true;
-    }
-    if (event.key == 'd') {
-        dX = 0.6 * prt;
-        flipped = false;
+    if (!tpDown && !tpUp) {
+        if (event.key == 'a') {
+            dX = -0.6 * prt;
+            flipped = true;
+        }
+        if (event.key == 'd') {
+            dX = 0.6 * prt;
+            flipped = false;
+        }
+    } else {
+        if (event.key == 'a') {
+            flipped = true;
+        }
+        if (event.key == 'd') {
+            flipped = false;
+        }
     }
     if (event.key == 'w') {
         if(!jumping && !falling) {
