@@ -1,7 +1,7 @@
 let level = 1;
-let l1 = false, l2 = false, l3 = false;
+let loaded = 0;
 
-//setup
+//setup canvas------------------------------------------------------------
 let canvas = document.getElementById('main');
 let ctx = canvas.getContext('2d');
 ctx.canvas.width  = window.innerWidth;
@@ -13,10 +13,12 @@ let uctx = canvas2.getContext('2d');
 uctx.canvas.width  = window.innerWidth;
 uctx.canvas.height = window.innerHeight;
 uctx.imageSmoothingEnabled = false;
+//------------------------------------------------------------
 
 
 
-//draw background
+
+//draw background------------------------------------------------------------
 let bgd = new Image();
 bgd.src = "/assets/img/background.png";
 var ratio;
@@ -26,24 +28,28 @@ bgd.addEventListener("load", function () {
     var vRatio = canvas.height / bgd.height;
     ratio = Math.max(hRatio, vRatio);
     ctx.drawImage(bgd, 0, 0, bgd.width * ratio, bgd.height * ratio);
-    l1 = true;
+    loaded++;
 })
 
-
+// draw grass
 let grs = new Image();
 grs.src = "/assets/img/grass.png";
 
 let rt;
 
-//draw grass
 grs.addEventListener("load", function () {
     rt = (canvas.height / 6) / grs.height;
     for (let i = 0; i < canvas.width; i += grs.width * rt) {
         ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
     }
-    l2 = true;
+    loaded++;
 })
+//------------------------------------------------------------
 
+
+
+
+//init player------------------------------------------------------------
 
 let prt;
 
@@ -51,10 +57,31 @@ let player = new Image();
 player.src = "/assets/img/frame1.png";
 player.addEventListener("load", function () {
     prt = (canvas.height / 5) / player.height;
-    l3 = true;
+    loaded++;
 })
+
+
+let players = [0, 0, 0, 0, 0, 0], playerfs = [0, 0, 0, 0, 0, 0];
+
+for (let i = 1; i < 7; i++) {
+    players[i-1] = new Image();
+    players[i-1].src = "/assets/img/frame" + i + ".png";
+    players[i-1].addEventListener("load", function () {
+        loaded++;
+    })
+    playerfs[i-1] = new Image();
+    playerfs[i-1].src = "/assets/img/frame" + i + "f.png";
+    playerfs[i-1].addEventListener("load", function () {
+        loaded++;
+    })
+}
+//------------------------------------------------------------
   
 
+
+
+
+//OI ------------------------------------------------------------
 let frame = 0;
 let timer = 0;
 
@@ -85,35 +112,23 @@ document.addEventListener('keyup', function (event) {
         dX = 0;
     }
 })
-
-let players = [], playerfs = [];
-
-let l4 = 0, l5 = 0;
-
-for (let i = 1; i < 7; i++) {
-    let pl = new Image();
-    pl.src = "/assets/img/frame" + i + ".png";
-    pl.addEventListener("load", function () {
-        players.push(pl);
-        l4++;
-    })
-    let pl2 = new Image();
-    pl2.src = "/assets/img/frame" + i + "f.png";
-    pl2.addEventListener("load", function () {
-        playerfs.push(pl2);
-        l5++;
-    })
-}
+//------------------------------------------------------------
 
 
 function update() {
-    if (l1 && l2 && l3 && l4 > 5 && l5 > 5) {
+    if (loaded >= 15) {
+
+        //calc position
         uctx.clearRect(0, 0, canvas.width, canvas.height);
         playerX += dX;
         playerX = Math.max(playerX, 0);
         playerX = Math.min(playerX, canvas.width - player.width * prt);
         playerY = Math.min(canvas.height - grs.height * rt - player.height * prt, playerY + dY);
 
+
+
+
+        //jump/fall --------------
         if (jumping) {
             dY *= 0.9;
             if (dY > -1) {
@@ -131,6 +146,10 @@ function update() {
             }
         }
 
+
+
+        
+        //render player --------------
         if (dX == 0) {
             if (flipped) {
                 player = playerfs[5];
@@ -156,12 +175,4 @@ function update() {
 
 
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 setInterval(update, 10);
-
-/*window.addEventListener('resize', function(event){
-    draw();
-});*/
