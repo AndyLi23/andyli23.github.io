@@ -86,8 +86,12 @@ let playerX = 20, playerY = canvas.height / 4, dX = 0, dY = 1;
 let flipped = false;
 let falling = true;
 let jumping = false;
+let pressed = false;
 
 document.addEventListener('keydown', function (event) {
+    if (event.key == 'a' || event.key == 'd' || event.key == 'w') {
+        pressed = true;
+    }
     if (event.key == 'a') {
         dX = -0.5 * prt;
         flipped = true;
@@ -121,8 +125,9 @@ function update() {
             for (let i = 0; i < canvas.width; i += grs.width * rt) {
                 ctx.drawImage(grs, i, canvas.height - grs.height * rt, grs.width * rt, grs.height * rt);
             }
+
             grassDrawn = true;
-        } 
+        }
 
         //calc position
         uctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -176,6 +181,11 @@ function update() {
 
         }
         uctx.drawImage(player, playerX, playerY, player.width * prt, player.height * prt);
+
+        if (!pressed) {
+            uctx.font = '30px serif';
+            uctx.fillText('[W],[A] to move, [D] to jump', playerX, playerY - 20);
+        }
     }
 }
 
