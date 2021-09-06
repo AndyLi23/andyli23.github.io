@@ -7,6 +7,7 @@ body {
 }
 
 canvas {
+    position: absolute;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-crisp-edges;
     image-rendering: pixelated;
