@@ -135,7 +135,7 @@ let jumping = false;
 let pressed = false;
 
 
-let apressed = false, dpressed = false;;
+let apressed = false, dpressed = false, wpressed = false;
 
 //teleporting vars
 let tpDown = false, tpUp = false, tpY = 0, curY = 0, goalY = 0;
@@ -146,31 +146,16 @@ document.addEventListener('keydown', function (event) {
         pressed = true;
     }
 
-    //restrict movement while teleporting
-    if (!tpDown && !tpUp) {
-        if (event.key == 'a') {
-            //dX = -0.6 * prt;
-            apressed = true;
-        }
-        if (event.key == 'd') {
-            //dX = 0.6 * prt;
-            dpressed = true;
-        }
-    } else {
-        if (event.key == 'a') {
-            apressed = true;
-        }
-        if (event.key == 'd') {
-            dpressed = true;
-        }
+    if (event.key == 'a') {
+        apressed = true;
+    }
+    if (event.key == 'd') {
+        dpressed = true;
     }
 
     //jump
     if (event.key == 'w') {
-        if(!jumping && !falling) {
-            dY = -2 * prt;
-            jumping = true;
-        }
+        wpressed = true;
     }
 
     //teleport up/down
@@ -194,6 +179,8 @@ document.addEventListener('keyup', function (event) {
         apressed = false;
     } else if (event.key == 'd') {
         dpressed = false;
+    } else if (event.key == 'w') {
+        wpressed = false;
     }
 })
 //------------------------------------------------------------
@@ -279,18 +266,24 @@ function update() {
         
         //calc position
         if (!tpUp && !tpDown) {
-            if (apressed) {
-                dX = -0.6 * prt;
-            } else if (dpressed) {
+            if (dpressed) {
                 dX = 0.6 * prt;
+            } else if (apressed) {
+                dX = -0.6 * prt;
             } else {
                 dX = 0;
             }
         }
-        if (apressed) {
-            flipped = true;
-        } else if (dpressed) {
+        if (wpressed) {
+            if(!jumping && !falling) {
+                dY = -2 * prt;
+                jumping = true;
+            }
+        }
+        if (dpressed) {
             flipped = false;
+        } else if (apressed) {
+            flipped = true;
         }
 
         uctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -300,14 +293,16 @@ function update() {
         playerY = Math.min(canvas.height - grs.height * rt - player.height * prt, playerY + dY);
 
 
-        if (!tpDown && !tpUp && playerX >= telX - player.width * prt/2 && playerX <= telX + telp.width * telrt - player.width*prt/2 && playerY == canvas.height - grs.height * rt - player.height * prt) {
+        if (!tpDown && !tpUp && playerX >= telX && playerX <= telX + telp.width * telrt - player.width*prt) {
             onTelp = true;
             uctx.font = 3 * prt + 'px sans serif';
             if (level == 1) {
-                uctx.fillText('[1] to travel down', telX, playerY - 10);
+                uctx.fillText('[1] to travel down', telX, canvas.height - grs.height * rt - player.height * prt - 10);
             } else if (level == 2) {
-                uctx.fillText('[1] to travel up', telX, playerY - 10);
+                uctx.fillText('[1] to travel up', telX, canvas.height - grs.height * rt - player.height * prt - 10);
             }
+        } else {
+            onTelp = false;
         }
 
 
