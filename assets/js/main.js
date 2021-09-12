@@ -291,6 +291,7 @@ function draw() {
 function update() {
     //make sure all images are loaded
     if (loaded >= 24) {
+        console.log(loaded);
 
         telrt = (2 * grs.width * rt) / telp.width;
         
@@ -476,8 +477,6 @@ function update() {
 interval = setInterval(update, 10);
 }
 
-
-game();
 game();
 
 window.addEventListener('resize', function () {
