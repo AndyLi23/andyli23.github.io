@@ -134,7 +134,7 @@ let frame = 0;
 let timer = 0;
 
 //movement vars
-let playerX = 20, playerY = canvas.height / 4, dX = 0, dY = 1;
+let playerX = 20, playerY = 0, dX = 0, dY = 1;
 let flipped = false;
 let falling = true;
 let jumping = false;
@@ -240,7 +240,13 @@ function draw() {
         bctx.drawImage(drt, i, (canvas.height*3/4), drt.width * rt, drt.height * rt);
     }
 
-    bctx.drawImage(tml, 100, (canvas.height * 3 / 4) - tml.height * rt/5 - drt.height * rt, tml.width * rt/5, tml.height * rt/5);
+
+    let pts = (((lastGrass - 3) * grs.width * rt) - grs.width * rt) / 4;
+    let tmlrt = (pts * 0.7) / tml.width;
+
+    for (let i = 0; i < 4; i++) {
+        bctx.drawImage(tml, (grs.width * rt) + pts * i + pts*0.15, (canvas.height * 3 / 4) - tml.height * tmlrt - drt.height * rt, tml.width * tmlrt, tml.height * tmlrt);
+    }
 }
 
 
@@ -253,6 +259,7 @@ function update() {
         
         //draw grass when it loads
         if (!grassDrawn) {
+            playerY = canvas.height - grs.height*rt - 3*player.height * prt;
             let cnt = 0;
             for (let i = 0; i < canvas.width; i += grs.width * rt) {
                 cnt++;
@@ -284,7 +291,7 @@ function update() {
         }
         if (wpressed) {
             if(!jumping && !falling) {
-                dY = prt * -3;
+                dY = prt * -1.5;
                 jumping = true;
             }
         }
@@ -307,11 +314,16 @@ function update() {
 
         if (!tpDown && !tpUp && playerX >= telX && playerX <= telX + telp.width * telrt - player.width*prt) {
             onTelp = true;
+            uctx.beginPath();
+            uctx.fillStyle = "#ffffff";
+            uctx.rect(telX, canvas.height - grs.height * rt - player.height * prt - 10 - Math.max(3 * prt, 14), Math.max(3 * prt, 14)*7, Math.max(3 * prt, 14)+5);
+            uctx.fill();
+            uctx.fillStyle = "#000000";
             uctx.font = Math.max(3 * prt, 14) + 'px sans serif';
             if (level == 1) {
-                uctx.fillText('[1] down', telX, canvas.height - grs.height * rt - player.height * prt - 10);
+                uctx.fillText('[1] go down', telX, canvas.height - grs.height * rt - player.height * prt - 10);
             } else if (level == 2) {
-                uctx.fillText('[1] up', telX, canvas.height - grs.height * rt - player.height * prt - 10);
+                uctx.fillText('[1] go up', telX, canvas.height - grs.height * rt - player.height * prt - 10);
             }
         } else {
             onTelp = false;
@@ -324,7 +336,7 @@ function update() {
             if (dY > -prt/5) {
                 jumping = false;
                 falling = true;
-                dY = prt;
+                dY = prt/5;
             }
         } else {
             if (playerY == canvas.height - grs.height * rt - player.height * prt) {
@@ -332,7 +344,7 @@ function update() {
                 dY = 0;
             } else {
                 falling = true;
-                dY = Math.min(dY * (1.05 + ratio /100), 10);
+                dY = Math.min(dY * 1.08, 15);
             }
         }
 
@@ -366,8 +378,13 @@ function update() {
 
         //initial instructions
         if (!pressed) {
+            uctx.beginPath();
+            uctx.fillStyle = "#ffffff";
+            uctx.rect(playerX-5, playerY - 20 - Math.max(3 * prt, 14), Math.max(3 * prt, 14)*9, Math.max(3 * prt, 14)+5);
+            uctx.fill();
+            uctx.fillStyle = "#000000";
             uctx.font = Math.max(3 * prt, 14) + 'px sans serif';
-            uctx.fillText('WAD to move', playerX, playerY - 20);
+            uctx.fillText('[WAD] to move', playerX, playerY - 20);
         }
 
 
