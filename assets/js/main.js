@@ -11,12 +11,14 @@ let ctx = canvas.getContext('2d');
 ctx.canvas.width  = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
 ctx.imageSmoothingEnabled = false;
+ctx.translate(0, 0);
 
 let canvas2 = document.getElementById('update');
 let uctx = canvas2.getContext('2d');
 uctx.canvas.width  = window.innerWidth;
 uctx.canvas.height = window.innerHeight;
 uctx.imageSmoothingEnabled = false;
+uctx.translate(0, 0);
 
 let canvas3 = document.getElementById('bottom');
 let bctx = canvas3.getContext('2d');
@@ -475,6 +477,7 @@ interval = setInterval(update, 10);
 }
 
 
+game();
 game();
 
 window.addEventListener('resize', function () {
