@@ -1,3 +1,6 @@
+let interval;
+
+let game = function () {
 let level = 1;
 let loaded = 0;
 
@@ -65,7 +68,7 @@ let lastGrass = 0;
 let rt;
 
 grs.addEventListener("load", function () {
-    rt = (canvas.width / 13) / grs.width * 0.9;
+    rt = Math.min((canvas.width / 13) / grs.width * 0.9, (canvas.height / 5)/grs.height);
     for (let i = 0; i < canvas.width; i += grs.width * rt) {
         lastGrass++;
     }
@@ -127,7 +130,7 @@ let prt;
 let player = new Image();
 player.src = "/assets/img/frame1.png";
 player.addEventListener("load", function () {
-    prt = (canvas.width / 13) / grs.width;
+    prt = Math.min((canvas.width / 13) / grs.width, (canvas.height/5) / grs.height);
     loaded++;
 })
 
@@ -268,10 +271,10 @@ function draw() {
 
 
     let pts = (((lastGrass - 3) * grs.width * rt) - grs.width * rt) / 4;
-    let tmlrt = (pts * 0.7) / tml.width;
+    let tmlrt = Math.min((pts * 0.8) / tml.width, (canvas.height * 0.75 - grs.height*rt)/tml.height);
 
     for (let i = 0; i < 4; i++) {
-        bctx.drawImage(tmls[i], (grs.width * rt) + pts * i + pts*0.15, (canvas.height * 3 / 4) - tml.height * tmlrt - drt.height * rt, tml.width * tmlrt, tml.height * tmlrt);
+        bctx.drawImage(tmls[i], (grs.width * rt) + pts * i + pts*0.1, (canvas.height * 3 / 4) - tml.height * tmlrt - drt.height * rt, tml.width * tmlrt, tml.height * tmlrt);
     }
 }
 
@@ -443,4 +446,13 @@ function update() {
 
 
 //100fps :)
-setInterval(update, 10);
+interval = setInterval(update, 10);
+}
+
+
+game();
+
+window.addEventListener('resize', function () {
+    clearInterval(interval);
+    game();
+});
