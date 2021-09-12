@@ -45,7 +45,7 @@ let tlt = new Image();
 tlt.src = "/assets/img/title.png"
 var trt;
 tlt.addEventListener("load", function () {
-    trt = Math.max((canvas.width / 2) / tlt.width, (canvas.height/5) / tlt.height);
+    trt = Math.min((canvas.width/1.2) / tlt.width, (canvas.height/5)/tlt.height);
     ctx.drawImage(tlt, (canvas.width - tlt.width * trt)/2, 50, tlt.width * trt, tlt.height * trt);
     loaded++;
 })
@@ -57,7 +57,7 @@ let lastGrass = 0;
 let rt;
 
 grs.addEventListener("load", function () {
-    rt = (canvas.height / 6) / grs.height;
+    rt = (canvas.width / 13) / grs.width * 0.9;
     for (let i = 0; i < canvas.width; i += grs.width * rt) {
         lastGrass++;
     }
@@ -74,6 +74,12 @@ drt.addEventListener("load", function () {
 let wll = new Image();
 wll.src = "/assets/img/wall.png";
 wll.addEventListener("load", function () {
+    loaded++;
+})
+
+let tml = new Image();
+tml.src = "/assets/img/terminal.png";
+tml.addEventListener("load", function () {
     loaded++;
 })
 //------------------------------------------------------------
@@ -97,7 +103,7 @@ let prt;
 let player = new Image();
 player.src = "/assets/img/frame1.png";
 player.addEventListener("load", function () {
-    prt = (canvas.height / 5) / player.height;
+    prt = (canvas.width / 13) / grs.width;
     loaded++;
 })
 
@@ -233,13 +239,15 @@ function draw() {
     for (let i = 0; i < canvas.width; i += grs.width * rt) {
         bctx.drawImage(drt, i, (canvas.height*3/4), drt.width * rt, drt.height * rt);
     }
+
+    bctx.drawImage(tml, 100, (canvas.height * 3 / 4) - tml.height * rt/5 - drt.height * rt, tml.width * rt/5, tml.height * rt/5);
 }
 
 
 //main update -------------------------------------------------------------
 function update() {
     //make sure all images are loaded
-    if (loaded >= 19) {
+    if (loaded >= 20) {
 
         telrt = (2 * grs.width * rt) / telp.width;
         
@@ -276,7 +284,7 @@ function update() {
         }
         if (wpressed) {
             if(!jumping && !falling) {
-                dY = -2 * prt;
+                dY = Math.min(-2.5 * prt);
                 jumping = true;
             }
         }
@@ -291,15 +299,19 @@ function update() {
         playerX = Math.max(playerX, 0);
         playerX = Math.min(playerX, canvas.width - player.width * prt);
         playerY = Math.min(canvas.height - grs.height * rt - player.height * prt, playerY + dY);
+        if (level == 2) {
+            playerX = Math.max(playerX, grs.width * rt);
+            playerX = Math.min(playerX, (lastGrass-1) * grs.width * rt - player.width * prt);
+        }
 
 
         if (!tpDown && !tpUp && playerX >= telX && playerX <= telX + telp.width * telrt - player.width*prt) {
             onTelp = true;
-            uctx.font = 3 * prt + 'px sans serif';
+            uctx.font = Math.max(3 * prt, 14) + 'px sans serif';
             if (level == 1) {
-                uctx.fillText('[1] to travel down', telX, canvas.height - grs.height * rt - player.height * prt - 10);
+                uctx.fillText('[1] down', telX, canvas.height - grs.height * rt - player.height * prt - 10);
             } else if (level == 2) {
-                uctx.fillText('[1] to travel up', telX, canvas.height - grs.height * rt - player.height * prt - 10);
+                uctx.fillText('[1] up', telX, canvas.height - grs.height * rt - player.height * prt - 10);
             }
         } else {
             onTelp = false;
@@ -354,8 +366,8 @@ function update() {
 
         //initial instructions
         if (!pressed) {
-            uctx.font = 3*prt + 'px sans serif';
-            uctx.fillText('[A],[D] to move, [W] to jump', playerX, playerY - 20);
+            uctx.font = Math.max(3 * prt, 14) + 'px sans serif';
+            uctx.fillText('WAD to move', playerX, playerY - 20);
         }
 
 
