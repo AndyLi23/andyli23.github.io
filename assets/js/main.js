@@ -3,6 +3,7 @@ let interval;
 let game = function () {
 let level = 1;
 let loaded = 0;
+let curTml = -1;
 
 //setup canvas------------------------------------------------------------
 let canvas = document.getElementById('main');
@@ -169,6 +170,7 @@ let pressed = false;
 
 
 let apressed = false, dpressed = false, wpressed = false;
+let sites = ["https://sim.amhsrobotics.com", "https://github.com/AndyLi23/Battle-City", "https://github.com/AndyLi23/BashHelp", "https://github.com/AndyLi23/usaco"];
 
 //teleporting vars
 let tpDown = false, tpUp = false, tpY = 0, curY = 0, goalY = 0;
@@ -192,17 +194,21 @@ document.addEventListener('keydown', function (event) {
     }
 
     //teleport up/down
-    if (event.key == '1' && onTelp) {
-        if (level == 1) {
-            tpDown = true;
-            tpY = -ratio*5;
-            goalY = parseInt(-canvas.height * 3 / 4);
-        } else if (level == 2) {
-            goalY = 0;
-            tpY = ratio*5;
-            tpUp = true;
+    if (event.key == '1') {
+        if (onTelp) {
+            if (level == 1) {
+                tpDown = true;
+                tpY = -ratio * 5;
+                goalY = parseInt(-canvas.height * 3 / 4);
+            } else if (level == 2) {
+                goalY = 0;
+                tpY = ratio * 5;
+                tpUp = true;
+            }
+            dX = 0;
+        } else if (curTml != -1) {
+            window.open(sites[curTml], "_blank").focus();
         }
-        dX = 0;
     }
 })
 
@@ -356,6 +362,25 @@ function update() {
             }
         } else {
             onTelp = false;
+        }
+
+        curTml = -1;
+        if (level == 2) {
+            for (let i = 0; i < 4; i++) {
+                let pts = (((lastGrass - 3) * grs.width * rt) - grs.width * rt) / 4;
+                let tmlrt = Math.min((pts * 0.8) / tml.width, (canvas.height * 0.75 - grs.height * rt) / tml.height);
+                let tmlpos = (grs.width * rt) + pts * i + pts * 0.1;
+                if (playerX >= tmlpos - player.width * prt * 0.2 && playerX <= tmlpos + tml.width * tmlrt - player.width * prt * 0.2) {
+                    uctx.beginPath();
+                    uctx.fillStyle = "#ffffff";
+                    uctx.rect(playerX, playerY -10 - Math.max(3 * prt, 14), Math.max(3 * prt, 14) * 7, Math.max(3 * prt, 14) + 5);
+                    uctx.fill();
+                    uctx.fillStyle = "#000000";
+                    uctx.font = Math.max(3 * prt, 14) + 'px sans serif';
+                    uctx.fillText('[1] explore', playerX, playerY-10);
+                    curTml = i;
+                }
+            }
         }
 
 
