@@ -134,6 +134,9 @@ let falling = true;
 let jumping = false;
 let pressed = false;
 
+
+let apressed = false, dpressed = false;;
+
 //teleporting vars
 let tpDown = false, tpUp = false, tpY = 0, curY = 0, goalY = 0;
 
@@ -146,19 +149,19 @@ document.addEventListener('keydown', function (event) {
     //restrict movement while teleporting
     if (!tpDown && !tpUp) {
         if (event.key == 'a') {
-            dX = -0.6 * prt;
-            flipped = true;
+            //dX = -0.6 * prt;
+            apressed = true;
         }
         if (event.key == 'd') {
-            dX = 0.6 * prt;
-            flipped = false;
+            //dX = 0.6 * prt;
+            dpressed = true;
         }
     } else {
         if (event.key == 'a') {
-            flipped = true;
+            apressed = true;
         }
         if (event.key == 'd') {
-            flipped = false;
+            dpressed = true;
         }
     }
 
@@ -175,19 +178,22 @@ document.addEventListener('keydown', function (event) {
         if (level == 1) {
             tpDown = true;
             tpY = -4;
-            goalY = parseInt(-canvas.height * 3/4);
+            goalY = parseInt(-canvas.height * 3 / 4);
         } else if (level == 2) {
             goalY = 0;
             tpY = 4;
             tpUp = true;
         }
+        dX = 0;
     }
 })
 
 //stop moving
 document.addEventListener('keyup', function (event) {
-    if (event.key == 'a' || event.key == 'd') {
-        dX = 0;
+    if (event.key == 'a') {
+        apressed = false;
+    } else if (event.key == 'd') {
+        dpressed = false;
     }
 })
 //------------------------------------------------------------
@@ -269,9 +275,24 @@ function update() {
         
         //teleporter position
         let telX = lastGrass * grs.width * rt - grs.width * rt * 3;
-        let telY = canvas.height - grs.height * rt - telp.height * telrt + prt*2;
-
+        let telY = canvas.height - grs.height * rt - telp.height * telrt + prt * 2;
+        
         //calc position
+        if (!tpUp && !tpDown) {
+            if (apressed) {
+                dX = -0.6 * prt;
+            } else if (dpressed) {
+                dX = 0.6 * prt;
+            } else {
+                dX = 0;
+            }
+        }
+        if (apressed) {
+            flipped = true;
+        } else if (dpressed) {
+            flipped = false;
+        }
+
         uctx.clearRect(0, 0, canvas.width, canvas.height);
         playerX += dX;
         playerX = Math.max(playerX, 0);
