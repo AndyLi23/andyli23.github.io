@@ -279,7 +279,7 @@ function draw() {
 //main update -------------------------------------------------------------
 function update() {
     //make sure all images are loaded
-    if (loaded >= 23) {
+    if (loaded >= 24) {
 
         telrt = (2 * grs.width * rt) / telp.width;
         
@@ -423,6 +423,8 @@ function update() {
                 tpDown = false;
                 tpY = 0;
                 level = 2;
+                tpY = goalY - curY;
+                draw();
             }
         } else if (tpUp) {
             if (curY < goalY) {
@@ -432,6 +434,8 @@ function update() {
                 tpUp = false;
                 tpY = 0;
                 level = 1;
+                tpY = goalY - curY;
+                draw();
             }
         }
     }
