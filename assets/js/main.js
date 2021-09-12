@@ -195,7 +195,7 @@ document.addEventListener('keydown', function (event) {
 
     //teleport up/down
     if (event.key == '1') {
-        if (onTelp) {
+        if (onTelp && curTml == -1) {
             if (level == 1) {
                 tpDown = true;
                 tpY = -ratio * 5;
