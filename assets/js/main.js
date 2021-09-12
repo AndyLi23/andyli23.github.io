@@ -50,6 +50,14 @@ tlt.addEventListener("load", function () {
     loaded++;
 })
 
+let sec = new Image();
+sec.src = "/assets/img/secret.png";
+let secrt;
+sec.addEventListener("load", function () {
+    secrt = Math.min((canvas.width / 1.5) / sec.width, (canvas.height / 5) / sec.height);
+    loaded++;
+})
+
 // draw grass
 let grs = new Image();
 grs.src = "/assets/img/grass.png";
@@ -78,10 +86,26 @@ wll.addEventListener("load", function () {
 })
 
 let tml = new Image();
-tml.src = "/assets/img/terminal.png";
+tml.src = "/assets/img/sim.png";
 tml.addEventListener("load", function () {
     loaded++;
 })
+
+
+let tmls = [0, 0, 0, 0];
+for (let i = 0; i < 4; i++) {
+    tmls[i] = new Image();
+}
+tmls[0] = tml;
+tmls[1].src = "/assets/img/battle-city.png";
+tmls[2].src = "/assets/img/bash-help.png";
+tmls[3].src = "/assets/img/usaco.png";
+for (let i = 1; i < 4; i++) {
+    tmls[i].addEventListener("load", function () {
+        loaded++;
+    })
+}
+
 //------------------------------------------------------------
 
 
@@ -219,7 +243,7 @@ function draw() {
 
     //translate bottom level up/down
     bctx.translate(0, tpY);
-    bctx.clearRect(0, curY, canvas.width, canvas.height);
+    bctx.clearRect(0, curY-10, canvas.width, canvas.height+10);
 
     //draw wall
     for (let j = 0; j < canvas.height; j += grs.height * rt) {
@@ -240,12 +264,14 @@ function draw() {
         bctx.drawImage(drt, i, (canvas.height*3/4), drt.width * rt, drt.height * rt);
     }
 
+    bctx.drawImage(sec, (canvas.width - sec.width * secrt) / 2, 50, sec.width * secrt, sec.height * secrt);
+
 
     let pts = (((lastGrass - 3) * grs.width * rt) - grs.width * rt) / 4;
     let tmlrt = (pts * 0.7) / tml.width;
 
     for (let i = 0; i < 4; i++) {
-        bctx.drawImage(tml, (grs.width * rt) + pts * i + pts*0.15, (canvas.height * 3 / 4) - tml.height * tmlrt - drt.height * rt, tml.width * tmlrt, tml.height * tmlrt);
+        bctx.drawImage(tmls[i], (grs.width * rt) + pts * i + pts*0.15, (canvas.height * 3 / 4) - tml.height * tmlrt - drt.height * rt, tml.width * tmlrt, tml.height * tmlrt);
     }
 }
 
@@ -253,7 +279,7 @@ function draw() {
 //main update -------------------------------------------------------------
 function update() {
     //make sure all images are loaded
-    if (loaded >= 20) {
+    if (loaded >= 23) {
 
         telrt = (2 * grs.width * rt) / telp.width;
         
