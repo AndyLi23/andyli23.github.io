@@ -168,11 +168,11 @@ document.addEventListener('keydown', function (event) {
     if (event.key == '1' && onTelp) {
         if (level == 1) {
             tpDown = true;
-            tpY = -4;
+            tpY = -ratio*5;
             goalY = parseInt(-canvas.height * 3 / 4);
         } else if (level == 2) {
             goalY = 0;
-            tpY = 4;
+            tpY = ratio*5;
             tpUp = true;
         }
         dX = 0;
@@ -284,7 +284,7 @@ function update() {
         }
         if (wpressed) {
             if(!jumping && !falling) {
-                dY = Math.min(-2.5 * prt);
+                dY = prt * -3;
                 jumping = true;
             }
         }
@@ -321,10 +321,10 @@ function update() {
         //jump/fall --------------
         if (jumping) {
             dY *= 0.9;
-            if (dY > -1) {
+            if (dY > -prt/5) {
                 jumping = false;
                 falling = true;
-                dY = 2;
+                dY = prt;
             }
         } else {
             if (playerY == canvas.height - grs.height * rt - player.height * prt) {
@@ -332,7 +332,7 @@ function update() {
                 dY = 0;
             } else {
                 falling = true;
-                dY = Math.min(dY * (1.05 + (prt / 500)), 10);
+                dY = Math.min(dY * (1.05 + ratio /100), 10);
             }
         }
 
