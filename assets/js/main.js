@@ -1,9 +1,9 @@
 let interval;
+let curTml = -1;
+let level = 1;
 
 let game = function () {
-let level = 1;
 let loaded = 0;
-let curTml = -1;
 
 //setup canvas------------------------------------------------------------
 let canvas = document.getElementById('main');
@@ -209,7 +209,7 @@ document.addEventListener('keydown', function (event) {
             }
             dX = 0;
         } else if (curTml != -1) {
-            window.open(sites[curTml], "_blank").focus();
+            window.open(sites[curTml], "_blank", "noopener").focus();
         }
     }
 })
@@ -477,9 +477,13 @@ function update() {
 interval = setInterval(update, 10);
 }
 
+curTml = -1;
+level = 1;
 game();
 
 window.addEventListener('resize', function () {
     clearInterval(interval);
+    curTml = -1;
+    level = 1;
     game();
 });
