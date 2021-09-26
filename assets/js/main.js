@@ -290,7 +290,7 @@ function draw() {
 //main update -------------------------------------------------------------
 function update() {
     //make sure all images are loaded
-    if (loaded >= 24) {
+    if (loaded >= 23) {
         console.log(loaded);
 
         telrt = (2 * grs.width * rt) / telp.width;
