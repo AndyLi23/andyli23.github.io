@@ -290,21 +290,17 @@ function draw() {
 
 //main update -------------------------------------------------------------
 function update() {
+    console.log(loaded);
     //make sure all images are loaded
     if (counter <= 0) {
-        if (loaded < 23) {
-            clearInterval(interval);
-            curTml = -1;
-            level = 1;
-            game();
-            counter = 100;
+        if (loaded < 24) {
+            window.location.reload(false); 
         }
     } else {
         counter--;
     }
 
-    if (loaded >= 23) {
-        console.log(loaded);
+    if (loaded >= 24) {
 
         telrt = (2 * grs.width * rt) / telp.width;
         
