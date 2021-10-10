@@ -4,6 +4,7 @@ let level = 1;
 
 let game = function () {
 let loaded = 0;
+let counter = 100;
 
 //setup canvas------------------------------------------------------------
 let canvas = document.getElementById('main');
@@ -290,6 +291,18 @@ function draw() {
 //main update -------------------------------------------------------------
 function update() {
     //make sure all images are loaded
+    if (counter <= 0) {
+        if (loaded < 23) {
+            clearInterval(interval);
+            curTml = -1;
+            level = 1;
+            game();
+            counter = 100;
+        }
+    } else {
+        counter--;
+    }
+
     if (loaded >= 23) {
         console.log(loaded);
 
