@@ -28,6 +28,16 @@ bctx.canvas.height = window.innerHeight;
 bctx.imageSmoothingEnabled = false;
 
 bctx.translate(0, canvas.height);
+    
+let canvas4 = document.getElementById('top');
+let tctx = canvas4.getContext('2d');
+tctx.canvas.width  = window.innerWidth;
+tctx.canvas.height = window.innerHeight;
+tctx.imageSmoothingEnabled = false;
+    
+tctx.translate(0, -canvas.height);
+
+//tctx.translate(0, -canvas.height);
 //------------------------------------------------------------
 
 
@@ -53,7 +63,12 @@ tlt.src = "/assets/img/title.png"
 var trt;
 tlt.addEventListener("load", function () {
     trt = Math.min((canvas.width/1.2) / tlt.width, (canvas.height/5)/tlt.height);
-    ctx.drawImage(tlt, (canvas.width - tlt.width * trt)/2, 50, tlt.width * trt, tlt.height * trt);
+    loaded++;
+})
+    
+let cld = new Image();
+cld.src = "/assets/img/cloud.png"
+cld.addEventListener("load", function () {
     loaded++;
 })
 
@@ -196,23 +211,40 @@ document.addEventListener('keydown', function (event) {
         wpressed = true;
     }
 
+    if (event.key == '2') {
+        if (level == 0) {
+            tpDown = true;
+            tpY = -ratio * 5;
+            goalY = 0;
+        }
+        if (level == 1) {
+            tpDown = true;
+            tpY = -ratio * 5;
+            goalY = parseInt(-canvas.height*3/4);
+        }
+    }
+
     //teleport up/down
     if (event.key == '1') {
         if (onTelp && curTml == -1) {
             if (level == 1) {
-                tpDown = true;
-                tpY = -ratio * 5;
-                goalY = parseInt(-canvas.height * 3 / 4);
+                tpUp = true;
+                tpY = ratio * 5;
+                goalY = parseInt(canvas.height);
             } else if (level == 2) {
+                tpUp = true;
                 goalY = 0;
                 tpY = ratio * 5;
-                tpUp = true;
             }
             dX = 0;
         } else if (curTml != -1) {
             window.open(sites[curTml], "_blank", "noopener").focus();
         }
     }
+
+    // console.log("TPUP: " + tpUp);
+    // console.log("goalY: " + goalY);
+    // console.log("level: " + level)
 })
 
 //stop moving
@@ -285,27 +317,37 @@ function draw() {
     for (let i = 0; i < 4; i++) {
         bctx.drawImage(tmls[i], (grs.width * rt) + pts * i + pts*0.1, (canvas.height * 3 / 4) - tml.height * tmlrt - drt.height * rt, tml.width * tmlrt, tml.height * tmlrt);
     }
+
+    tctx.translate(0, tpY);
+    tctx.clearRect(0, 0, canvas.width, canvas.height * 2);
+    for (let i = -cld.width*trt/3; i < canvas.width; i += cld.width*2*trt/3) {
+        tctx.drawImage(cld, i, canvas.height-player.height*prt*5/4, cld.width * trt, cld.height * trt);
+    }
+    for (let i = 0; i < canvas.width; i += cld.width*3) {
+        tctx.drawImage(cld, i, canvas.height-player.height*prt*5/4, cld.width * trt, cld.height * trt);
+    }
 }
 
 
 //main update -------------------------------------------------------------
 function update() {
-    console.log(loaded);
+    //console.log(loaded);
     //make sure all images are loaded
     if (counter <= 0) {
-        if (loaded < 24) {
+        if (loaded < 25) {
             window.location.reload(false); 
         }
     } else {
         counter--;
     }
 
-    if (loaded >= 24) {
+    if (loaded >= 25) {
 
         telrt = (2 * grs.width * rt) / telp.width;
         
         //draw grass when it loads
         if (!grassDrawn) {
+
             playerY = canvas.height - grs.height*rt - 3*player.height * prt;
             let cnt = 0;
             for (let i = 0; i < canvas.width; i += grs.width * rt) {
@@ -317,8 +359,10 @@ function update() {
                 }
             }
 
-            ctx.drawImage(tlt, (canvas.width - tlt.width * trt)/2, 50, tlt.width * trt, tlt.height * trt);
+            ctx.drawImage(tlt, (canvas.width - tlt.width * trt) / 2, 50, tlt.width * trt, tlt.height * trt);
 
+            tctx.drawImage(cld, 0, 100, cld.width * trt, cld.height * trt);
+            
             grassDrawn = true;
         }
         
@@ -359,7 +403,7 @@ function update() {
         }
 
 
-        if (!tpDown && !tpUp && playerX >= telX && playerX <= telX + telp.width * telrt - player.width*prt) {
+        if (!tpDown && !tpUp && playerX >= telX && playerX-5 <= telX + telp.width * telrt - player.width*prt) {
             onTelp = true;
             uctx.beginPath();
             uctx.fillStyle = "#ffffff";
@@ -368,9 +412,16 @@ function update() {
             uctx.fillStyle = "#000000";
             uctx.font = Math.max(3 * prt, 14) + 'px sans serif';
             if (level == 1) {
-                uctx.fillText('[1] go down', telX, canvas.height - grs.height * rt - player.height * prt - 10);
+                uctx.fillStyle = "#ffffff";
+                uctx.rect(telX, canvas.height - grs.height * rt - player.height * prt - 50 - Math.max(3 * prt, 14), Math.max(3 * prt, 14)*7, Math.max(3 * prt, 14)+5);
+                uctx.fill();
+                uctx.fillStyle = "#000000";
+                uctx.fillText('[1] go up', telX, canvas.height - grs.height * rt - player.height * prt - 50);
+                uctx.fillText('[2] go down', telX, canvas.height - grs.height * rt - player.height * prt - 10);
             } else if (level == 2) {
                 uctx.fillText('[1] go up', telX, canvas.height - grs.height * rt - player.height * prt - 10);
+            } else if (level == 0) {
+                uctx.fillText('[2] go down', telX, canvas.height - grs.height * rt - player.height * prt - 10);
             }
         } else {
             onTelp = false;
@@ -462,7 +513,8 @@ function update() {
             } else {
                 tpDown = false;
                 tpY = 0;
-                level = 2;
+                if (level == 0) level = 1;
+                else level = 2;
                 tpY = goalY - curY;
                 draw();
             }
@@ -473,11 +525,13 @@ function update() {
                 bctx.clearRect(0, -4, canvas.width, canvas.height);
                 tpUp = false;
                 tpY = 0;
-                level = 1;
+                if (level == 1) level = 0;
+                else level = 1;
                 tpY = goalY - curY;
                 draw();
             }
         }
+
     }
 }
 
