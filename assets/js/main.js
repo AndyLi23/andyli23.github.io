@@ -599,11 +599,17 @@ function sleep (time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
 
-sleep(10).then(() => {
+curTml = -1;
+level = 1;
+game();
+
+sleep(50).then(() => {
+    clearInterval(interval);
     curTml = -1;
     level = 1;
     game();
 });
+
 
 window.addEventListener('resize', function () {
     clearInterval(interval);
