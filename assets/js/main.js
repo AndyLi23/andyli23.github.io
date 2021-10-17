@@ -251,6 +251,9 @@ function processOne() {
         window.open(links[curTml], "_blank").focus();
         curTml = -1;
     }
+
+    var oneButtn = document.getElementById('onebuttn');
+    oneButtn.classList.remove("buttnclicked");
 }
     
 document.addEventListener('keydown', function (event) {
@@ -309,18 +312,18 @@ upButtn.addEventListener('mousedown', () => {pressed = true; wpressed = true;});
 upButtn.addEventListener('mouseup', () => {wpressed = false});
 
 var oneButtn = document.getElementById('onebuttn');
+oneButtn.addEventListener('mousedown', () => {oneButtn.classList.add("buttnclicked")});
 oneButtn.addEventListener('mousedown', processOne);
 
 var twoButtn = document.getElementById('twobuttn');
 twoButtn.addEventListener('mousedown', processTwo);
-
+    
 rightButtn.addEventListener('mousedown', () => {rightButtn.classList.add("buttnclicked")});
 rightButtn.addEventListener('mouseup', () => { rightButtn.classList.remove("buttnclicked") });
 leftButtn.addEventListener('mousedown', () => {leftButtn.classList.add("buttnclicked")});
 leftButtn.addEventListener('mouseup', () => { leftButtn.classList.remove("buttnclicked") });
 upButtn.addEventListener('mousedown', () => {upButtn.classList.add("buttnclicked")});
 upButtn.addEventListener('mouseup', () => { upButtn.classList.remove("buttnclicked") });
-oneButtn.addEventListener('mousedown', () => {oneButtn.classList.add("buttnclicked")});
 oneButtn.addEventListener('mouseup', () => {oneButtn.classList.remove("buttnclicked")});
 twoButtn.addEventListener('mousedown', () => {twoButtn.classList.add("buttnclicked")});
 twoButtn.addEventListener('mouseup', () => {twoButtn.classList.remove("buttnclicked")});
@@ -339,6 +342,7 @@ upButtn.addEventListener('touchstart', () => {pressed = true; wpressed = true;})
 upButtn.addEventListener('touchend', () => {wpressed = false});
 
 var oneButtn = document.getElementById('onebuttn');
+oneButtn.addEventListener('touchstart', () => {oneButtn.classList.add("buttnclicked")});
 oneButtn.addEventListener('touchstart', processOne);
 
 var twoButtn = document.getElementById('twobuttn');
@@ -350,7 +354,6 @@ leftButtn.addEventListener('touchstart', () => {leftButtn.classList.add("buttncl
 leftButtn.addEventListener('touchend', () => { leftButtn.classList.remove("buttnclicked") });
 upButtn.addEventListener('touchstart', () => {upButtn.classList.add("buttnclicked")});
 upButtn.addEventListener('touchend', () => { upButtn.classList.remove("buttnclicked") });
-oneButtn.addEventListener('touchstart', () => {oneButtn.classList.add("buttnclicked")});
 oneButtn.addEventListener('touchend', () => {oneButtn.classList.remove("buttnclicked")});
 twoButtn.addEventListener('touchstart', () => {twoButtn.classList.add("buttnclicked")});
 twoButtn.addEventListener('touchend', () => {twoButtn.classList.remove("buttnclicked")});
@@ -502,6 +505,43 @@ function update() {
             playerX = Math.min(playerX, (lastGrass-1) * grs.width * rt - player.width * prt);
         }
 
+        //render player --------------
+        if (dX == 0) {
+            if (flipped) {
+                player = playerfs[5];
+            } else {
+                player = players[5];
+            }
+        } else {
+            timer++;
+            if (timer == 10) {
+                timer = 0;
+                frame = (frame + 1) % 6;
+            }
+            if (flipped) {
+                player = playerfs[frame];
+            } else {
+                player = players[frame];
+            }
+
+        }
+
+        //draw teleporter and player
+        uctx.drawImage(telp, telX, telY, telp.width * telrt, telp.height * telrt)
+        uctx.drawImage(player, playerX, playerY, player.width * prt, player.height * prt);
+        
+
+        //initial instructions
+        if (!pressed) {
+            uctx.beginPath();
+            uctx.fillStyle = "#ffffffaa";
+            uctx.rect(playerX-5, playerY - 20 - Math.max(3 * prt, 14), Math.max(3 * prt, 14)*9, Math.max(3 * prt, 14)+10);
+            uctx.fill();
+            uctx.fillStyle = "#000000";
+            uctx.font = Math.max(3 * prt, 14) + 'px sans-serif';
+            uctx.fillText('[WAD] to move', playerX, playerY - 20);
+        }
+
 
         if (!tpDown && !tpUp && playerX >= telX && playerX-5 <= telX + telp.width * telrt - player.width*prt) {
             onTelp = true;
@@ -582,45 +622,6 @@ function update() {
                 falling = true;
                 dY = Math.min(dY * 1.08, 15);
             }
-        }
-
-
-        
-        //render player --------------
-        if (dX == 0) {
-            if (flipped) {
-                player = playerfs[5];
-            } else {
-                player = players[5];
-            }
-        } else {
-            timer++;
-            if (timer == 10) {
-                timer = 0;
-                frame = (frame + 1) % 6;
-            }
-            if (flipped) {
-                player = playerfs[frame];
-            } else {
-                player = players[frame];
-            }
-
-        }
-
-        //draw teleporter and player
-        uctx.drawImage(telp, telX, telY, telp.width * telrt, telp.height * telrt)
-        uctx.drawImage(player, playerX, playerY, player.width * prt, player.height * prt);
-        
-
-        //initial instructions
-        if (!pressed) {
-            uctx.beginPath();
-            uctx.fillStyle = "#ffffffaa";
-            uctx.rect(playerX-5, playerY - 20 - Math.max(3 * prt, 14), Math.max(3 * prt, 14)*9, Math.max(3 * prt, 14)+10);
-            uctx.fill();
-            uctx.fillStyle = "#000000";
-            uctx.font = Math.max(3 * prt, 14) + 'px sans-serif';
-            uctx.fillText('[WAD] to move', playerX, playerY - 20);
         }
 
 
