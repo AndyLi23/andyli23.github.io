@@ -26,7 +26,6 @@ let bctx = canvas3.getContext('2d');
 bctx.canvas.width  = window.innerWidth;
 bctx.canvas.height = window.innerHeight;
 bctx.imageSmoothingEnabled = false;
-
 bctx.translate(0, canvas.height);
     
 let canvas4 = document.getElementById('top');
@@ -34,7 +33,6 @@ let tctx = canvas4.getContext('2d');
 tctx.canvas.width  = window.innerWidth;
 tctx.canvas.height = window.innerHeight;
 tctx.imageSmoothingEnabled = false;
-    
 tctx.translate(0, -canvas.height);
 
 //tctx.translate(0, -canvas.height);
@@ -218,6 +216,43 @@ let sites = ["https://github.com/AndyLi23/usaco", "https://github.com/AndyLi23/B
 //teleporting vars
 let tpDown = false, tpUp = false, tpY = 0, curY = 0, goalY = 0;
 
+function processTwo() {
+    if (onTelp) {
+        if (level == 0) {
+            tpDown = true;
+            tpY = -ratio * 5;
+            goalY = 0;
+        }
+        if (level == 1) {
+            tpDown = true;
+            tpY = -ratio * 5;
+            goalY = parseInt(-canvas.height * 3 / 4);
+        }
+        dX = 0;
+    }
+}
+    
+function processOne() {
+    if (onTelp && curTml == -1) {
+        if (level == 1) {
+            tpUp = true;
+            tpY = ratio * 5;
+            goalY = parseInt(canvas.height);
+        } else if (level == 2) {
+            tpUp = true;
+            goalY = 0;
+            tpY = ratio * 5;
+        }
+        dX = 0;
+    } else if (curTml != -1 && level == 2) {
+        window.open(sites[curTml], "_blank").focus();
+        curTml = -1;
+    } else if (curTml != -1 && level == 0) {
+        window.open(links[curTml], "_blank").focus();
+        curTml = -1;
+    }
+}
+    
 document.addEventListener('keydown', function (event) {
     //cancel instructions
     if (event.key == 'a' || event.key == 'd' || event.key == 'w') {
@@ -237,38 +272,12 @@ document.addEventListener('keydown', function (event) {
     }
 
     if (event.key == '2') {
-        if (level == 0) {
-            tpDown = true;
-            tpY = -ratio * 5;
-            goalY = 0;
-        }
-        if (level == 1) {
-            tpDown = true;
-            tpY = -ratio * 5;
-            goalY = parseInt(-canvas.height*3/4);
-        }
+        processTwo();
     }
 
     //teleport up/down
     if (event.key == '1') {
-        if (onTelp && curTml == -1) {
-            if (level == 1) {
-                tpUp = true;
-                tpY = ratio * 5;
-                goalY = parseInt(canvas.height);
-            } else if (level == 2) {
-                tpUp = true;
-                goalY = 0;
-                tpY = ratio * 5;
-            }
-            dX = 0;
-        } else if (curTml != -1 && level == 2) {
-            window.open(sites[curTml], "_blank", "noopener").focus();
-            curTml = -1;
-        } else if (curTml != -1 && level == 0) {
-            window.open(links[curTml], "_blank", "noopener").focus();
-            curTml = -1;
-        }
+        processOne();
     }
 
     // console.log("TPUP: " + tpUp);
@@ -286,6 +295,37 @@ document.addEventListener('keyup', function (event) {
         wpressed = false;
     }
 })
+    
+var rightButtn = document.getElementById('rightbuttn');
+rightButtn.addEventListener('mousedown', () => {pressed = true; dpressed = true;});
+rightButtn.addEventListener('mouseup', () => { dpressed = false });
+    
+var leftButtn = document.getElementById('leftbuttn');
+leftButtn.addEventListener('mousedown', () => {pressed = true; apressed = true;});
+leftButtn.addEventListener('mouseup', () => {apressed = false});
+
+var upButtn = document.getElementById('upbuttn');
+upButtn.addEventListener('mousedown', () => {pressed = true; wpressed = true;});
+upButtn.addEventListener('mouseup', () => {wpressed = false});
+
+var oneButtn = document.getElementById('onebuttn');
+oneButtn.addEventListener('mousedown', processOne);
+
+var twoButtn = document.getElementById('twobuttn');
+twoButtn.addEventListener('mousedown', processTwo);
+
+rightButtn.addEventListener('mousedown', () => {rightButtn.classList.add("buttnclicked")});
+rightButtn.addEventListener('mouseup', () => { rightButtn.classList.remove("buttnclicked") });
+leftButtn.addEventListener('mousedown', () => {leftButtn.classList.add("buttnclicked")});
+leftButtn.addEventListener('mouseup', () => { leftButtn.classList.remove("buttnclicked") });
+upButtn.addEventListener('mousedown', () => {upButtn.classList.add("buttnclicked")});
+upButtn.addEventListener('mouseup', () => { upButtn.classList.remove("buttnclicked") });
+oneButtn.addEventListener('mousedown', () => {oneButtn.classList.add("buttnclicked")});
+oneButtn.addEventListener('mouseup', () => {oneButtn.classList.remove("buttnclicked")});
+twoButtn.addEventListener('mousedown', () => {twoButtn.classList.add("buttnclicked")});
+twoButtn.addEventListener('mouseup', () => {twoButtn.classList.remove("buttnclicked")});
+
+
 //------------------------------------------------------------
 
 
@@ -376,8 +416,6 @@ function update() {
 
     if (loaded >= 29) {
 
-        console.log("drawing new")
-
         telrt = (2 * grs.width * rt) / telp.width;
         
         //draw grass when it loads
@@ -439,14 +477,15 @@ function update() {
         if (!tpDown && !tpUp && playerX >= telX && playerX-5 <= telX + telp.width * telrt - player.width*prt) {
             onTelp = true;
             uctx.beginPath();
-            uctx.fillStyle = "#ffffff";
-            uctx.rect(telX, canvas.height - grs.height * rt - player.height * prt - 10 - Math.max(3 * prt, 14), Math.max(3 * prt, 14)*7, Math.max(3 * prt, 14)+5);
+            uctx.fillStyle = "#ffffffaa";
+            uctx.rect(telX, canvas.height - grs.height * rt - player.height * prt - 10 - Math.max(3 * prt, 14), Math.max(3 * prt, 14)*7, Math.max(3 * prt, 14)+10);
             uctx.fill();
             uctx.fillStyle = "#000000";
-            uctx.font = Math.max(3 * prt, 14) + 'px sans serif';
+            uctx.font = Math.max(3 * prt, 14) + 'px sans-serif';
             if (level == 1) {
-                uctx.fillStyle = "#ffffff";
-                uctx.rect(telX, canvas.height - grs.height * rt - player.height * prt - 50 - Math.max(3 * prt, 14), Math.max(3 * prt, 14)*7, Math.max(3 * prt, 14)+5);
+                uctx.beginPath();
+                uctx.fillStyle = "#ffffffaa";
+                uctx.rect(telX, canvas.height - grs.height * rt - player.height * prt - 50 - Math.max(3 * prt, 14), Math.max(3 * prt, 14)*7, Math.max(3 * prt, 14)+10);
                 uctx.fill();
                 uctx.fillStyle = "#000000";
                 uctx.fillText('[1] go up', telX, canvas.height - grs.height * rt - player.height * prt - 50);
@@ -468,11 +507,11 @@ function update() {
                 let tmlpos = (grs.width * rt) + pts * i + pts * 0.1;
                 if (playerX >= tmlpos - player.width * prt * 0.2 && playerX <= tmlpos + tml.width * tmlrt - player.width * prt * 0.8) {
                     uctx.beginPath();
-                    uctx.fillStyle = "#ffffff";
-                    uctx.rect(playerX, playerY -10 - Math.max(3 * prt, 14), Math.max(3 * prt, 14) * 7, Math.max(3 * prt, 14) + 5);
+                    uctx.fillStyle = "#ffffffaa";
+                    uctx.rect(playerX, playerY -10 - Math.max(3 * prt, 14), Math.max(3 * prt, 14) * 7, Math.max(3 * prt, 14) + 10);
                     uctx.fill();
                     uctx.fillStyle = "#000000";
-                    uctx.font = Math.max(3 * prt, 14) + 'px sans serif';
+                    uctx.font = Math.max(3 * prt, 14) + 'px sans-serif';
                     uctx.fillText('[1] explore', playerX, playerY-10);
                     curTml = i;
                 }
@@ -486,11 +525,11 @@ function update() {
                 let lnkpos = (grs.width * rt) + pts * i + pts * 0.1;
                 if (playerX >= lnkpos - player.width * prt * 0.2 && playerX <= lnkpos + lnk.width * lnkrt - player.width * prt * 0.8) {
                     uctx.beginPath();
-                    uctx.fillStyle = "#ffffff";
-                    uctx.rect(playerX, playerY -10 - Math.max(3 * prt, 14), Math.max(3 * prt, 14) * 7, Math.max(3 * prt, 14) + 5);
+                    uctx.fillStyle = "#ffffffaa";
+                    uctx.rect(playerX, playerY -10 - Math.max(3 * prt, 14), Math.max(3 * prt, 14) * 7, Math.max(3 * prt, 14) + 10);
                     uctx.fill();
                     uctx.fillStyle = "#000000";
-                    uctx.font = Math.max(3 * prt, 14) + 'px sans serif';
+                    uctx.font = Math.max(3 * prt, 14) + 'px sans-serif';
                     uctx.fillText('[1] fly away!', playerX, playerY-10);
                     curTml = i;
                 }
@@ -547,11 +586,11 @@ function update() {
         //initial instructions
         if (!pressed) {
             uctx.beginPath();
-            uctx.fillStyle = "#ffffff";
-            uctx.rect(playerX-5, playerY - 20 - Math.max(3 * prt, 14), Math.max(3 * prt, 14)*9, Math.max(3 * prt, 14)+5);
+            uctx.fillStyle = "#ffffffaa";
+            uctx.rect(playerX-5, playerY - 20 - Math.max(3 * prt, 14), Math.max(3 * prt, 14)*9, Math.max(3 * prt, 14)+10);
             uctx.fill();
             uctx.fillStyle = "#000000";
-            uctx.font = Math.max(3 * prt, 14) + 'px sans serif';
+            uctx.font = Math.max(3 * prt, 14) + 'px sans-serif';
             uctx.fillText('[WAD] to move', playerX, playerY - 20);
         }
 
