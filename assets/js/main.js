@@ -365,17 +365,18 @@ function draw() {
 
 //main update -------------------------------------------------------------
 function update() {
-    console.log(loaded);
     //make sure all images are loaded
     if (counter <= 0) {
-        if (loaded < 28) {
+        if (loaded < 29) {
             window.location.reload(false); 
         }
     } else {
         counter--;
     }
 
-    if (loaded >= 28) {
+    if (loaded >= 29) {
+
+        console.log("drawing new")
 
         telrt = (2 * grs.width * rt) / telp.width;
         
@@ -584,6 +585,8 @@ function update() {
             }
         }
 
+    } else {
+        console.log(loaded);
     }
 }
 
@@ -592,9 +595,15 @@ function update() {
 interval = setInterval(update, 10);
 }
 
-curTml = -1;
-level = 1;
-game();
+function sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+sleep(10).then(() => {
+    curTml = -1;
+    level = 1;
+    game();
+});
 
 window.addEventListener('resize', function () {
     clearInterval(interval);
