@@ -4,7 +4,7 @@ let level = 1;
 
 let game = function () {
 let loaded = 0;
-let counter = 100;
+let counter = 50;
 
 //setup canvas------------------------------------------------------------
 let canvas = document.getElementById('main');
@@ -108,7 +108,7 @@ wll.addEventListener("load", function () {
 })
 
 let tml = new Image();
-tml.src = "/assets/img/sim.png";
+tml.src = "/assets/img/usaco.png";
 tml.addEventListener("load", function () {
     loaded++;
 })
@@ -119,9 +119,9 @@ for (let i = 0; i < 4; i++) {
     tmls[i] = new Image();
 }
 tmls[0] = tml;
-tmls[1].src = "/assets/img/battle-city.png";
-tmls[2].src = "/assets/img/bash-help.png";
-tmls[3].src = "/assets/img/usaco.png";
+tmls[1].src = "/assets/img/bash-help.png";
+tmls[2].src = "/assets/img/battle-city.png";
+tmls[3].src = "/assets/img/sim.png";
 for (let i = 1; i < 4; i++) {
     tmls[i].addEventListener("load", function () {
         loaded++;
@@ -169,6 +169,31 @@ for (let i = 1; i < 7; i++) {
         loaded++;
     })
 }
+    
+    
+
+let links = ["mailto:andyliqy@gmail.com", "https://instagram.com/andily__", "https://www.youtube.com/watch?v=dQw4w9WgXcQ", "https://github.com/AndyLi23"];
+let lnk = new Image();
+lnk.src = "/assets/img/mail.png";
+lnk.addEventListener("load", function () {
+    loaded++;
+})
+
+
+let lnks = [0, 0, 0, 0];
+for (let i = 0; i < 4; i++) {
+    lnks[i] = new Image();
+}
+lnks[0] = lnk;
+lnks[1].src = "/assets/img/insta.png";
+lnks[2].src = "/assets/img/youtube.png";
+lnks[3].src = "/assets/img/github.png";
+for (let i = 1; i < 4; i++) {
+    lnks[i].addEventListener("load", function () {
+        loaded++;
+    })
+}
+    
 //------------------------------------------------------------
   
 
@@ -188,7 +213,7 @@ let pressed = false;
 
 
 let apressed = false, dpressed = false, wpressed = false;
-let sites = ["https://sim.amhsrobotics.com", "https://github.com/AndyLi23/Battle-City", "https://github.com/AndyLi23/BashHelp", "https://github.com/AndyLi23/usaco"];
+let sites = ["https://github.com/AndyLi23/usaco", "https://github.com/AndyLi23/BashHelp", "https://github.com/AndyLi23/Battle-City", "https://sim.amhsrobotics.com"];
 
 //teleporting vars
 let tpDown = false, tpUp = false, tpY = 0, curY = 0, goalY = 0;
@@ -237,8 +262,12 @@ document.addEventListener('keydown', function (event) {
                 tpY = ratio * 5;
             }
             dX = 0;
-        } else if (curTml != -1) {
+        } else if (curTml != -1 && level == 2) {
             window.open(sites[curTml], "_blank", "noopener").focus();
+            curTml = -1;
+        } else if (curTml != -1 && level == 0) {
+            window.open(links[curTml], "_blank", "noopener").focus();
+            curTml = -1;
         }
     }
 
@@ -323,25 +352,30 @@ function draw() {
     for (let i = -cld.width*trt/3; i < canvas.width; i += cld.width*2*trt/3) {
         tctx.drawImage(cld, i, canvas.height-player.height*prt*5/4, cld.width * trt, cld.height * trt);
     }
-    for (let i = 0; i < canvas.width; i += cld.width*3) {
+    for (let i = -cld.width*trt/2; i < canvas.width; i += cld.width*3) {
         tctx.drawImage(cld, i, canvas.height-player.height*prt*5/4, cld.width * trt, cld.height * trt);
+    }
+
+    let lnkrt = Math.min((pts * 0.8) / lnk.width, (canvas.height - grs.height * rt) / lnk.height);
+    for (let i = 0; i < 4; i++) {
+        tctx.drawImage(lnks[i], (grs.width * rt) + pts * i + pts*0.1, canvas.height - lnk.height * lnkrt - cld.height*trt - player.height*prt*1/4, lnk.width * lnkrt, lnk.height * lnkrt);
     }
 }
 
 
 //main update -------------------------------------------------------------
 function update() {
-    //console.log(loaded);
+    console.log(loaded);
     //make sure all images are loaded
     if (counter <= 0) {
-        if (loaded < 25) {
+        if (loaded < 28) {
             window.location.reload(false); 
         }
     } else {
         counter--;
     }
 
-    if (loaded >= 25) {
+    if (loaded >= 28) {
 
         telrt = (2 * grs.width * rt) / telp.width;
         
@@ -433,7 +467,7 @@ function update() {
                 let pts = (((lastGrass - 3) * grs.width * rt) - grs.width * rt) / 4;
                 let tmlrt = Math.min((pts * 0.8) / tml.width, (canvas.height * 0.75 - grs.height * rt) / tml.height);
                 let tmlpos = (grs.width * rt) + pts * i + pts * 0.1;
-                if (playerX >= tmlpos - player.width * prt * 0.2 && playerX <= tmlpos + tml.width * tmlrt - player.width * prt * 0.2) {
+                if (playerX >= tmlpos - player.width * prt * 0.2 && playerX <= tmlpos + tml.width * tmlrt - player.width * prt * 0.8) {
                     uctx.beginPath();
                     uctx.fillStyle = "#ffffff";
                     uctx.rect(playerX, playerY -10 - Math.max(3 * prt, 14), Math.max(3 * prt, 14) * 7, Math.max(3 * prt, 14) + 5);
@@ -441,6 +475,24 @@ function update() {
                     uctx.fillStyle = "#000000";
                     uctx.font = Math.max(3 * prt, 14) + 'px sans serif';
                     uctx.fillText('[1] explore', playerX, playerY-10);
+                    curTml = i;
+                }
+            }
+        }
+
+        if (level == 0) {
+            for (let i = 0; i < 4; i++) {
+                let pts = (((lastGrass - 3) * grs.width * rt) - grs.width * rt) / 4;
+                let lnkrt = Math.min((pts * 0.8) / lnk.width, (canvas.height - grs.height * rt) / lnk.height);
+                let lnkpos = (grs.width * rt) + pts * i + pts * 0.1;
+                if (playerX >= lnkpos - player.width * prt * 0.2 && playerX <= lnkpos + lnk.width * lnkrt - player.width * prt * 0.8) {
+                    uctx.beginPath();
+                    uctx.fillStyle = "#ffffff";
+                    uctx.rect(playerX, playerY -10 - Math.max(3 * prt, 14), Math.max(3 * prt, 14) * 7, Math.max(3 * prt, 14) + 5);
+                    uctx.fill();
+                    uctx.fillStyle = "#000000";
+                    uctx.font = Math.max(3 * prt, 14) + 'px sans serif';
+                    uctx.fillText('[1] fly away!', playerX, playerY-10);
                     curTml = i;
                 }
             }
