@@ -4,7 +4,6 @@ let level = 1;
 
 let game = function () {
 let loaded = 0;
-let counter = 50;
 
 //setup canvas------------------------------------------------------------
 let canvas = document.getElementById('main');
@@ -40,8 +39,6 @@ var leftButtn = document.getElementById('leftbuttn');
 var upButtn = document.getElementById('upbuttn');
 var oneButtn = document.getElementById('onebuttn');
 var twoButtn = document.getElementById('twobuttn');
-
-//tctx.translate(0, -canvas.height);
 //------------------------------------------------------------
 
 
@@ -110,13 +107,17 @@ wll.src = "/assets/img/wall.png";
 wll.addEventListener("load", function () {
     loaded++;
 })
+    
+    
+//bad pixelart computers--
 
+let sites = ["https://github.com/AndyLi23/usaco", "https://github.com/AndyLi23/BashHelp", "https://github.com/AndyLi23/Battle-City", "https://sim.amhsrobotics.com"];    
+    
 let tml = new Image();
 tml.src = "/assets/img/usaco.png";
 tml.addEventListener("load", function () {
     loaded++;
 })
-
 
 let tmls = [0, 0, 0, 0];
 for (let i = 0; i < 4; i++) {
@@ -174,8 +175,12 @@ for (let i = 1; i < 7; i++) {
     })
 }
     
+//------------------------------------------------------------
     
-
+    
+    
+//ready the ballons!!, said calvin to hobbes :) ---------------
+    
 let links = ["mailto:andyliqy@gmail.com", "https://instagram.com/andily__", "https://www.youtube.com/watch?v=dQw4w9WgXcQ", "https://github.com/AndyLi23"];
 let lnk = new Image();
 lnk.src = "/assets/img/mail.png";
@@ -217,11 +222,11 @@ let pressed = false;
 
 
 let apressed = false, dpressed = false, wpressed = false;
-let sites = ["https://github.com/AndyLi23/usaco", "https://github.com/AndyLi23/BashHelp", "https://github.com/AndyLi23/Battle-City", "https://sim.amhsrobotics.com"];
 
 //teleporting vars
 let tpDown = false, tpUp = false, tpY = 0, curY = 0, goalY = 0;
 
+//process 2 being clicked
 function processTwo() {
     if (onTelp) {
         if (level == 0) {
@@ -238,6 +243,7 @@ function processTwo() {
     }
 }
     
+//process 1 being clicked (dont sue me idk why its after 2)
 function processOne() {
     if (onTelp && curTml == -1) {
         if (level == 1) {
@@ -259,6 +265,7 @@ function processOne() {
     }
 }
     
+//process keydowns ----   
 document.addEventListener('keydown', function (event) {
     //cancel instructions
     if (event.key == 'a' || event.key == 'd' || event.key == 'w') {
@@ -282,6 +289,7 @@ document.addEventListener('keydown', function (event) {
     }
 })
     
+//reset on window unfocus   
 document.addEventListener('blur', function (event) {
     leftButtn.classList.remove("buttnclicked");
     rightButtn.classList.remove("buttnclicked");
@@ -293,7 +301,7 @@ document.addEventListener('blur', function (event) {
     wpressed = false;
 })
 
-//stop moving
+//process keyups ---
 document.addEventListener('keyup', function (event) {
     if (event.key == 'a') {
         leftButtn.classList.remove("buttnclicked");
@@ -311,6 +319,7 @@ document.addEventListener('keyup', function (event) {
     }
 })
     
+//stupid buttons (mouse and touchscreen) kill me pls    
 rightButtn.addEventListener('mousedown', () => {pressed = true; dpressed = true;});
 rightButtn.addEventListener('mouseup', () => { dpressed = false });
 leftButtn.addEventListener('mousedown', () => {pressed = true; apressed = true;});
@@ -351,13 +360,13 @@ twoButtn.addEventListener('touchend', () => {twoButtn.classList.remove("buttncli
 //------------------------------------------------------------
 
 
-
+//random vars idk why theyre here
 let grassDrawn = false;
 let onTelp = false;
 
 
 function draw() {
-    //translate top level up/down
+    //translate ground level up/down
     curY += tpY;
     ctx.translate(0, tpY);
     ctx.clearRect(0, -curY, canvas.width, canvas.height);
@@ -401,7 +410,7 @@ function draw() {
 
     bctx.drawImage(sec, (canvas.width - sec.width * secrt) / 2, 50, sec.width * secrt, sec.height * secrt);
 
-
+    //draw terminals (weird math lol idk how it works)
     let pts = (((lastGrass - 3) * grs.width * rt) - grs.width * rt) / 4;
     let tmlrt = Math.min((pts * 0.8) / tml.width, (canvas.height * 0.75 - grs.height*rt-10)/tml.height);
 
@@ -409,8 +418,10 @@ function draw() {
         bctx.drawImage(tmls[i], (grs.width * rt) + pts * i + pts*0.1, (canvas.height * 3 / 4) - tml.height * tmlrt - drt.height * rt, tml.width * tmlrt, tml.height * tmlrt);
     }
 
+    //translate top level up/down
     tctx.translate(0, tpY);
     tctx.clearRect(0, 0, canvas.width, canvas.height * 2);
+    //draw clowds
     for (let i = -cld.width*trt/3; i < canvas.width; i += cld.width*2*trt/3) {
         tctx.drawImage(cld, i, canvas.height-cld.height*trt - player.height*prt/4, cld.width * trt, cld.height * trt);
     }
@@ -418,6 +429,7 @@ function draw() {
         tctx.drawImage(cld, i, canvas.height-cld.height*trt - player.height*prt/4, cld.width * trt, cld.height * trt);
     }
 
+    //i copied this from the terminals cuz im l a zy
     let lnkrt = Math.min((pts * 0.8) / lnk.width, (canvas.height - cld.height*trt - player.height*prt/2-10) / lnk.height);
     for (let i = 0; i < 4; i++) {
         tctx.drawImage(lnks[i], (grs.width * rt) + pts * i + pts*0.1, canvas.height - lnk.height * lnkrt - cld.height*trt - player.height*prt/2, lnk.width * lnkrt, lnk.height * lnkrt);
@@ -427,15 +439,7 @@ function draw() {
 
 //main update -------------------------------------------------------------
 function update() {
-    //make sure all images are loaded
-    if (counter <= 0) {
-        if (loaded < 29) {
-            window.location.reload(false); 
-        }
-    } else {
-        counter--;
-    }
-
+    //check if all images are loaded
     if (loaded >= 29) {
 
         telrt = (2 * grs.width * rt) / telp.width;
@@ -463,7 +467,7 @@ function update() {
         let telX = lastGrass * grs.width * rt - grs.width * rt * 3;
         let telY = canvas.height - grs.height * rt - telp.height * telrt + prt * 2;
         
-        //calc position
+        //logic math stuff
         if (!tpUp && !tpDown) {
             if (dpressed) {
                 dX = 0.6 * prt;
@@ -485,6 +489,25 @@ function update() {
             flipped = true;
         }
 
+        //jump/fall --------------
+        if (jumping) {
+            dY *= 0.9;
+            if (dY > -prt/5) {
+                jumping = false;
+                falling = true;
+                dY = prt/5;
+            }
+        } else {
+            if (playerY == canvas.height - grs.height * rt - player.height * prt) {
+                falling = false;
+                dY = 0;
+            } else {
+                falling = true;
+                dY = Math.min(dY * 1.08, 15);
+            }
+        }
+        
+        //calculate player pos
         uctx.clearRect(0, 0, canvas.width, canvas.height);
         playerX += dX;
         playerX = Math.max(playerX, 0);
@@ -519,6 +542,7 @@ function update() {
         //draw teleporter and player
         uctx.drawImage(telp, telX, telY, telp.width * telrt, telp.height * telrt)
         uctx.drawImage(player, playerX, playerY, player.width * prt, player.height * prt);
+        //-----------------------------
         
 
         //initial instructions
@@ -533,6 +557,7 @@ function update() {
         }
 
 
+        //draw text on teleporter ---------------------------------------------------------------------------------------
         if (!tpDown && !tpUp && playerX >= telX && playerX-5 <= telX + telp.width * telrt - player.width*prt) {
             onTelp = true;
             uctx.beginPath();
@@ -557,7 +582,10 @@ function update() {
         } else {
             onTelp = false;
         }
+        //--------------------------------------------------------------------------------------------------------------------
 
+
+        //draw text when on terminals/balloons ----------------------------------------------------------
         curTml = -1;
         if (level == 2) {
             for (let i = 0; i < 4; i++) {
@@ -595,27 +623,10 @@ function update() {
             }
         }
 
-
-        //jump/fall --------------
-        if (jumping) {
-            dY *= 0.9;
-            if (dY > -prt/5) {
-                jumping = false;
-                falling = true;
-                dY = prt/5;
-            }
-        } else {
-            if (playerY == canvas.height - grs.height * rt - player.height * prt) {
-                falling = false;
-                dY = 0;
-            } else {
-                falling = true;
-                dY = Math.min(dY * 1.08, 15);
-            }
-        }
+        //---------------------------------------------------------------------------------------
 
 
-        //handle teleporting
+        //handle teleporting -----
         if (tpDown) {
             if (curY > goalY) {
                 draw();
@@ -641,8 +652,10 @@ function update() {
                 draw();
             }
         }
+        //------
 
     } else {
+        //my only remaining debug thing idk why its here just to suffer
         console.log(loaded);
     }
 }
@@ -660,6 +673,7 @@ curTml = -1;
 level = 1;
 game();
 
+//resolve weird bug by force reloading
 sleep(50).then(() => {
     clearInterval(interval);
     curTml = -1;
@@ -668,6 +682,7 @@ sleep(50).then(() => {
 });
 
 
+//reset on resize cuz im too lazy to actually store stuff
 window.addEventListener('resize', function () {
     clearInterval(interval);
     curTml = -1;
