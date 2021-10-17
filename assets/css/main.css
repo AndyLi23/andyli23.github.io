@@ -36,7 +36,7 @@ canvas {
     color: black;
 }
 
-body html canvas .noselect {
+body {
 -webkit-touch-callout: none !important; /* iOS Safari */
     -webkit-user-select: none !important; /* Safari */
     -khtml-user-select: none !important; /* Konqueror HTML */
