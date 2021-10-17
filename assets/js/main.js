@@ -325,6 +325,35 @@ oneButtn.addEventListener('mouseup', () => {oneButtn.classList.remove("buttnclic
 twoButtn.addEventListener('mousedown', () => {twoButtn.classList.add("buttnclicked")});
 twoButtn.addEventListener('mouseup', () => {twoButtn.classList.remove("buttnclicked")});
 
+    
+var rightButtn = document.getElementById('rightbuttn');
+rightButtn.addEventListener('touchstart', () => {pressed = true; dpressed = true;});
+rightButtn.addEventListener('touchend', () => { dpressed = false });
+    
+var leftButtn = document.getElementById('leftbuttn');
+leftButtn.addEventListener('touchstart', () => {pressed = true; apressed = true;});
+leftButtn.addEventListener('touchend', () => {apressed = false});
+
+var upButtn = document.getElementById('upbuttn');
+upButtn.addEventListener('touchstart', () => {pressed = true; wpressed = true;});
+upButtn.addEventListener('touchend', () => {wpressed = false});
+
+var oneButtn = document.getElementById('onebuttn');
+oneButtn.addEventListener('touchstart', processOne);
+
+var twoButtn = document.getElementById('twobuttn');
+twoButtn.addEventListener('touchstart', processTwo);
+
+rightButtn.addEventListener('touchstart', () => {rightButtn.classList.add("buttnclicked")});
+rightButtn.addEventListener('touchend', () => { rightButtn.classList.remove("buttnclicked") });
+leftButtn.addEventListener('touchstart', () => {leftButtn.classList.add("buttnclicked")});
+leftButtn.addEventListener('touchend', () => { leftButtn.classList.remove("buttnclicked") });
+upButtn.addEventListener('touchstart', () => {upButtn.classList.add("buttnclicked")});
+upButtn.addEventListener('touchend', () => { upButtn.classList.remove("buttnclicked") });
+oneButtn.addEventListener('touchstart', () => {oneButtn.classList.add("buttnclicked")});
+oneButtn.addEventListener('touchend', () => {oneButtn.classList.remove("buttnclicked")});
+twoButtn.addEventListener('touchstart', () => {twoButtn.classList.add("buttnclicked")});
+twoButtn.addEventListener('touchend', () => {twoButtn.classList.remove("buttnclicked")});
 
 //------------------------------------------------------------
 
