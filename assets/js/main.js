@@ -341,7 +341,7 @@ function draw() {
 
 
     let pts = (((lastGrass - 3) * grs.width * rt) - grs.width * rt) / 4;
-    let tmlrt = Math.min((pts * 0.8) / tml.width, (canvas.height * 0.75 - grs.height*rt)/tml.height);
+    let tmlrt = Math.min((pts * 0.8) / tml.width, (canvas.height * 0.75 - grs.height*rt-10)/tml.height);
 
     for (let i = 0; i < 4; i++) {
         bctx.drawImage(tmls[i], (grs.width * rt) + pts * i + pts*0.1, (canvas.height * 3 / 4) - tml.height * tmlrt - drt.height * rt, tml.width * tmlrt, tml.height * tmlrt);
@@ -350,15 +350,15 @@ function draw() {
     tctx.translate(0, tpY);
     tctx.clearRect(0, 0, canvas.width, canvas.height * 2);
     for (let i = -cld.width*trt/3; i < canvas.width; i += cld.width*2*trt/3) {
-        tctx.drawImage(cld, i, canvas.height-player.height*prt*5/4, cld.width * trt, cld.height * trt);
+        tctx.drawImage(cld, i, canvas.height-cld.height*trt - player.height*prt/4, cld.width * trt, cld.height * trt);
     }
     for (let i = -cld.width*trt/2; i < canvas.width; i += cld.width*3) {
-        tctx.drawImage(cld, i, canvas.height-player.height*prt*5/4, cld.width * trt, cld.height * trt);
+        tctx.drawImage(cld, i, canvas.height-cld.height*trt - player.height*prt/4, cld.width * trt, cld.height * trt);
     }
 
-    let lnkrt = Math.min((pts * 0.8) / lnk.width, (canvas.height - grs.height * rt) / lnk.height);
+    let lnkrt = Math.min((pts * 0.8) / lnk.width, (canvas.height - cld.height*trt - player.height*prt/2-10) / lnk.height);
     for (let i = 0; i < 4; i++) {
-        tctx.drawImage(lnks[i], (grs.width * rt) + pts * i + pts*0.1, canvas.height - lnk.height * lnkrt - cld.height*trt - player.height*prt*1/4, lnk.width * lnkrt, lnk.height * lnkrt);
+        tctx.drawImage(lnks[i], (grs.width * rt) + pts * i + pts*0.1, canvas.height - lnk.height * lnkrt - cld.height*trt - player.height*prt/2, lnk.width * lnkrt, lnk.height * lnkrt);
     }
 }
 
@@ -395,8 +395,6 @@ function update() {
             }
 
             ctx.drawImage(tlt, (canvas.width - tlt.width * trt) / 2, 50, tlt.width * trt, tlt.height * trt);
-
-            tctx.drawImage(cld, 0, 100, cld.width * trt, cld.height * trt);
             
             grassDrawn = true;
         }
