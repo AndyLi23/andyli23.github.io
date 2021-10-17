@@ -34,6 +34,12 @@ tctx.canvas.width  = window.innerWidth;
 tctx.canvas.height = window.innerHeight;
 tctx.imageSmoothingEnabled = false;
 tctx.translate(0, -canvas.height);
+    
+var rightButtn = document.getElementById('rightbuttn');
+var leftButtn = document.getElementById('leftbuttn');
+var upButtn = document.getElementById('upbuttn');
+var oneButtn = document.getElementById('onebuttn');
+var twoButtn = document.getElementById('twobuttn');
 
 //tctx.translate(0, -canvas.height);
 //------------------------------------------------------------
@@ -203,7 +209,7 @@ let frame = 0;
 let timer = 0;
 
 //movement vars
-let playerX = 20, playerY = 0, dX = 0, dY = 1;
+let playerX = 0, playerY = 0, dX = 0, dY = 1;
 let flipped = false;
 let falling = true;
 let jumping = false;
@@ -251,9 +257,6 @@ function processOne() {
         window.open(links[curTml], "_blank").focus();
         curTml = -1;
     }
-
-    var oneButtn = document.getElementById('onebuttn');
-    oneButtn.classList.remove("buttnclicked");
 }
     
 document.addEventListener('keydown', function (event) {
@@ -261,63 +264,62 @@ document.addEventListener('keydown', function (event) {
     if (event.key == 'a' || event.key == 'd' || event.key == 'w') {
         pressed = true;
     }
-
     if (event.key == 'a') {
+        leftButtn.classList.add("buttnclicked");
         apressed = true;
-    }
-    if (event.key == 'd') {
+    } else if (event.key == 'd') {
+        rightButtn.classList.add("buttnclicked");
         dpressed = true;
-    }
-
-    //jump
-    if (event.key == 'w') {
+    } else if (event.key == 'w') {
+        upButtn.classList.add("buttnclicked");
         wpressed = true;
-    }
-
-    if (event.key == '2') {
+    } else if (event.key == '2') {
+        twoButtn.classList.add("buttnclicked");
         processTwo();
-    }
-
-    //teleport up/down
-    if (event.key == '1') {
+    } else if (event.key == '1') {
+        oneButtn.classList.add("buttnclicked");
         processOne();
     }
-
-    // console.log("TPUP: " + tpUp);
-    // console.log("goalY: " + goalY);
-    // console.log("level: " + level)
+})
+    
+document.addEventListener('blur', function (event) {
+    leftButtn.classList.remove("buttnclicked");
+    rightButtn.classList.remove("buttnclicked");
+    upButtn.classList.remove("buttnclicked");
+    twoButtn.classList.remove("buttnclicked");
+    oneButtn.classList.remove("buttnclicked");
+    apressed = false;
+    dpressed = false;
+    wpressed = false;
 })
 
 //stop moving
 document.addEventListener('keyup', function (event) {
     if (event.key == 'a') {
+        leftButtn.classList.remove("buttnclicked");
         apressed = false;
     } else if (event.key == 'd') {
+        rightButtn.classList.remove("buttnclicked");
         dpressed = false;
     } else if (event.key == 'w') {
+        upButtn.classList.remove("buttnclicked");
         wpressed = false;
+    } else if (event.key == '1') {
+        oneButtn.classList.remove("buttnclicked");
+    } else if (event.key == '2') {
+        twoButtn.classList.remove("buttnclicked");
     }
 })
     
-var rightButtn = document.getElementById('rightbuttn');
 rightButtn.addEventListener('mousedown', () => {pressed = true; dpressed = true;});
 rightButtn.addEventListener('mouseup', () => { dpressed = false });
-    
-var leftButtn = document.getElementById('leftbuttn');
 leftButtn.addEventListener('mousedown', () => {pressed = true; apressed = true;});
 leftButtn.addEventListener('mouseup', () => {apressed = false});
-
-var upButtn = document.getElementById('upbuttn');
 upButtn.addEventListener('mousedown', () => {pressed = true; wpressed = true;});
 upButtn.addEventListener('mouseup', () => {wpressed = false});
-
-var oneButtn = document.getElementById('onebuttn');
 oneButtn.addEventListener('mousedown', () => {oneButtn.classList.add("buttnclicked")});
 oneButtn.addEventListener('mousedown', processOne);
-
-var twoButtn = document.getElementById('twobuttn');
 twoButtn.addEventListener('mousedown', processTwo);
-    
 rightButtn.addEventListener('mousedown', () => {rightButtn.classList.add("buttnclicked")});
 rightButtn.addEventListener('mouseup', () => { rightButtn.classList.remove("buttnclicked") });
 leftButtn.addEventListener('mousedown', () => {leftButtn.classList.add("buttnclicked")});
@@ -327,27 +329,15 @@ upButtn.addEventListener('mouseup', () => { upButtn.classList.remove("buttnclick
 oneButtn.addEventListener('mouseup', () => {oneButtn.classList.remove("buttnclicked")});
 twoButtn.addEventListener('mousedown', () => {twoButtn.classList.add("buttnclicked")});
 twoButtn.addEventListener('mouseup', () => {twoButtn.classList.remove("buttnclicked")});
-
-    
-var rightButtn = document.getElementById('rightbuttn');
 rightButtn.addEventListener('touchstart', () => {pressed = true; dpressed = true;});
 rightButtn.addEventListener('touchend', () => { dpressed = false });
-    
-var leftButtn = document.getElementById('leftbuttn');
 leftButtn.addEventListener('touchstart', () => {pressed = true; apressed = true;});
 leftButtn.addEventListener('touchend', () => {apressed = false});
-
-var upButtn = document.getElementById('upbuttn');
 upButtn.addEventListener('touchstart', () => {pressed = true; wpressed = true;});
 upButtn.addEventListener('touchend', () => {wpressed = false});
-
-var oneButtn = document.getElementById('onebuttn');
 oneButtn.addEventListener('touchstart', () => {oneButtn.classList.add("buttnclicked")});
 oneButtn.addEventListener('touchstart', processOne);
-
-var twoButtn = document.getElementById('twobuttn');
 twoButtn.addEventListener('touchstart', processTwo);
-
 rightButtn.addEventListener('touchstart', () => {rightButtn.classList.add("buttnclicked")});
 rightButtn.addEventListener('touchend', () => { rightButtn.classList.remove("buttnclicked") });
 leftButtn.addEventListener('touchstart', () => {leftButtn.classList.add("buttnclicked")});
@@ -452,7 +442,7 @@ function update() {
         
         //draw grass when it loads
         if (!grassDrawn) {
-
+            playerX = canvas.width*2/3;
             playerY = canvas.height - grs.height*rt - 3*player.height * prt;
             let cnt = 0;
             for (let i = 0; i < canvas.width; i += grs.width * rt) {
