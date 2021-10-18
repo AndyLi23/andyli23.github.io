@@ -154,7 +154,6 @@ let prt;
 let player = new Image();
 player.src = "/assets/img/frame1.png";
 player.addEventListener("load", function () {
-    prt = Math.min((canvas.width / 13) / grs.width, (canvas.height/5) / grs.height);
     loaded++;
 })
 
@@ -446,6 +445,7 @@ function update() {
         
         //draw grass when it loads
         if (!grassDrawn) {
+            prt = Math.min((canvas.width / 13) / grs.width, (canvas.height/5) / grs.height);
             playerX = canvas.width*2/3;
             playerY = canvas.height - grs.height*rt - 3*player.height * prt;
             let cnt = 0;
