@@ -664,23 +664,9 @@ function update() {
 //100fps :)
 interval = setInterval(update, 10);
 }
-
-function sleep (time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-}
-
 curTml = -1;
 level = 1;
 game();
-
-//resolve weird bug by force reloading
-sleep(50).then(() => {
-    clearInterval(interval);
-    curTml = -1;
-    level = 1;
-    game();
-});
-
 
 //reset on resize cuz im too lazy to actually store stuff
 window.addEventListener('resize', function () {
