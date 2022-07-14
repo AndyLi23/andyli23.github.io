@@ -12,7 +12,7 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    min-height: 620px;
+    min-height: 600px;
     position: absolute;
 }
 
@@ -30,7 +30,7 @@ h1 {
     margin: 0;
     width: 100%;
     padding-top: 40px;
-    padding-bottom: 10px;
+    padding-bottom: 3px;
     text-align: center;
     font-family: 'Montserrat', sans-serif;
     letter-spacing: 15px;
@@ -82,7 +82,15 @@ h1 {
     display: inline-block;
     color: #eaf2ff;
     text-decoration: none;
-    margin: 7px 0px;
+    margin: 2px 0px;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .selector {
@@ -111,8 +119,8 @@ p {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     width: 850px;
-    height: 600px;
-    margin-top: calc(max(50vh - 300px, 10px));
+    height: 550px;
+    margin-top: calc(max(50vh - 275px, 25px));
     margin-left: calc(max(50vw - 425px, 25px));
 }
 
