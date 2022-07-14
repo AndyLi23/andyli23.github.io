@@ -1,47 +1,93 @@
 body {
+    margin: 0;
+    color: white;
+    font-family: "Noto Sans", sans-serif;
+}
+
+#home { 
     height: 100vh;
     width: 100vw;
+    background: url(/assets/img/background.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    min-height: 520px;
+}
+
+
+:root {
+    --color-primary: #c2d4f2;
+    --color-secondary: #b1c9f0;
+    --color-tertiary: #a2bfef;
+    --color-quaternary: #94b7f0;
+    --color-quinary: #82adf2;
+}
+
+h1 {
+    font-size: 8rem;
+    margin: 0;
+    width: 100%;
+    padding-top: 50px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.7rem;
+    animation: shadows 0.8s ease-out forwards, move 0.8s ease-out forwards;
+}
+
+@keyframes shadows {
+    0% {
+      text-shadow: none;
+    }
+    25% {
+      text-shadow: 3px 3px 0 var(--color-secondary);
+    }
+    50% {
+      text-shadow: 3px 3px 0 var(--color-secondary),
+        6px 6px 0 var(--color-tertiary);
+    }
+    75% {
+      text-shadow: 3px 3px 0 var(--color-secondary),
+        6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary);
+    }
+    100% {
+      text-shadow: 3px 3px 0 var(--color-secondary),
+        6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary),
+        12px 12px 0 var(--color-quinary);
+    }
+  }
+  
+  @keyframes move {
+    0% {
+      transform: translate(0px, 0px);
+    }
+    25% {
+      transform: translate(-3px, -3px);
+    }
+    50% {
+      transform: translate(-6px, -6px);
+    }
+    75% {
+      transform: translate(-9px, -9px);
+    }
+    100% {
+      transform: translate(-12px, -12px);
+    }
+  }
+
+  .selector, .arrow {
+    font-size: 3rem;
+    display: inline-block;
+    color: white;
+    text-decoration: none;
+  }
+
+  .arrow {
+    min-width: 40px;
+    padding-left: calc(50vw - 120px);
+  }
+
+  p {
     padding: 0;
     margin: 0;
-    overflow: hidden;
-}
-
-canvas {
-    position: absolute;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: -webkit-crisp-edges;
-    image-rendering: pixelated;
-    image-rendering: crisp-edges;
-}
-
-.buttn {
-    font-family: sans-serif;
-    position: absolute;
-    z-index: 1;
-    width: 50px;
-    height: 38px;
-    background-color: #00000066;
-    font-size: 30px;
-    padding-top: 12px;
-    text-align: center;
-    color: white;
-}
-
-.buttn:hover {
-    cursor: pointer;
-}
-
-.buttnclicked {
-    background-color: #ffffff33;
-    color: black;
-}
-
-body {
--webkit-touch-callout: none !important; /* iOS Safari */
-    -webkit-user-select: none !important; /* Safari */
-    -khtml-user-select: none !important; /* Konqueror HTML */
-        -moz-user-select: none !important; /* Old versions of Firefox */
-        -ms-user-select: none !important; /* Internet Explorer/Edge */
-            user-select: none !important; /* Non-prefixed version, currently
-                                supported by Chrome, Edge, Opera and Firefox */
-}
+  }
