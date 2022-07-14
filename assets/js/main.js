@@ -19,24 +19,14 @@ $(document).keydown(function (e) {
 });
 
 function arrow() {
-    if (document.hasFocus()) {
-        if (loop % 5 == 0) {
-            $(".arrow").each(function () {
-                $(this).text("  ");
-            });
-        } else if (loop % 5 == 2) {
-            let cnt = 1;
-            $(".arrow").each(function () {
-                if (cnt == cur) {
-                    $(this).text("> ");
-                } else {
-                    $(this).text("  ");
-                }
-                cnt++;
-            });
-        }
-        loop = (loop + 1) % 5;
-    } else {
+    if (loop % 5 == 0) {
+        $(".arrow").each(function () {
+            $(this).text("  ");
+        });
+        $(".rarrow").each(function () {
+            $(this).text("  ");
+        });
+    } else if (loop % 5 == 2) {
         let cnt = 1;
         $(".arrow").each(function () {
             if (cnt == cur) {
@@ -46,7 +36,17 @@ function arrow() {
             }
             cnt++;
         });
+        cnt = 1;
+        $(".rarrow").each(function () {
+            if (cnt == cur) {
+                $(this).text("\u00A0<");
+            } else {
+                $(this).text("  ");
+            }
+            cnt++;
+        });
     }
+    loop = (loop + 1) % 5;
 }
 
 $("#link1").mouseover(function () { cur = 1; loop = 2; arrow(); })

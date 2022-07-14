@@ -12,7 +12,8 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    min-height: 520px;
+    min-height: 620px;
+    position: absolute;
 }
 
 
@@ -25,13 +26,14 @@ body {
 }
 
 h1 {
-    font-size: 8rem;
+    font-size: 120px;
     margin: 0;
     width: 100%;
-    padding-top: 50px;
+    padding-top: 40px;
+    padding-bottom: 10px;
     text-align: center;
     font-family: 'Montserrat', sans-serif;
-    letter-spacing: 0.7rem;
+    letter-spacing: 15px;
     animation: shadows 0.8s ease-out forwards, move 0.8s ease-out forwards;
 }
 
@@ -55,39 +57,94 @@ h1 {
         6px 6px 0 var(--color-tertiary), 9px 9px var(--color-quaternary),
         12px 12px 0 var(--color-quinary);
     }
-  }
+}
   
-  @keyframes move {
+@keyframes move {
     0% {
-      transform: translate(0px, 0px);
+        transform: translate(0px, 0px);
     }
     25% {
-      transform: translate(-3px, -3px);
+        transform: translate(-3px, -3px);
     }
     50% {
-      transform: translate(-6px, -6px);
+        transform: translate(-6px, -6px);
     }
     75% {
-      transform: translate(-9px, -9px);
+        transform: translate(-9px, -9px);
     }
     100% {
-      transform: translate(-12px, -12px);
+        transform: translate(-12px, -12px);
     }
-  }
+}
 
-  .selector, .arrow {
-    font-size: 3rem;
+.selector, .arrow, .rarrow {
+    font-size: 55px;
     display: inline-block;
-    color: white;
+    color: #eaf2ff;
     text-decoration: none;
-  }
+    margin: 7px 0px;
+}
 
-  .arrow {
-    min-width: 40px;
-    padding-left: calc(50vw - 120px);
-  }
+.selector {
+    text-align: center;
+    width: 350px;
+}
 
-  p {
+.arrow {
+    width: 40px;
+    margin-left: 210px;
+}
+
+.rarrow {
+    width: 40px;
+}
+
+p {
     padding: 0;
     margin: 0;
-  }
+}
+
+#homecont {
+    background: rgba(230, 230, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 5px 5px 20px rgba(50, 50, 70, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    width: 850px;
+    height: 600px;
+    margin-top: calc(max(50vh - 300px, 10px));
+    margin-left: calc(max(50vw - 425px, 25px));
+}
+
+@media (max-width: 900px) {
+    #home {
+        min-width: 400px;
+        min-height: 500px;
+    }
+    #homecont {
+        width: 380px;
+        height: 450px;
+        margin-top: calc(max(50vh - 240px, 25px));
+        margin-left: calc(max(50vw - 190px, 10px));
+    }
+    h1 {
+        padding-top: 70px;
+        padding-bottom: 10px;
+        font-size: 65px;
+        letter-spacing: 5px;
+    }
+    .selector, .arrow, .rarrow {
+        font-size: 35px;
+        margin: 5px 0;
+    }
+    .selector {
+        width: 200px;
+    }
+    .rarrow {
+        width: 20px;
+    }
+    .arrow {
+        width: 20px;
+        margin-left: 70px;
+    }
+}
