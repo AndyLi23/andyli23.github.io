@@ -6,6 +6,7 @@ body {
 
 #home { 
     height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     width: 100vw;
     background: url(/assets/img/background.jpg) no-repeat center center fixed; 
     -webkit-background-size: cover;
@@ -120,7 +121,7 @@ p {
     -webkit-backdrop-filter: blur(10px);
     width: 850px;
     height: 550px;
-    margin-top: calc(max(50vh - 275px, 25px));
+    margin-top: calc(max(calc(var(--vh, 1vh) * 50) - 275px, 25px));
     margin-left: calc(max(50vw - 425px, 25px));
 }
 
@@ -132,7 +133,7 @@ p {
     #homecont {
         width: 380px;
         height: 450px;
-        margin-top: calc(max(50vh - 240px, 25px));
+        margin-top: calc(max(calc(var(--vh, 1vh) * 50) - 240px, 25px));
         margin-left: calc(max(50vw - 190px, 10px));
     }
     h1 {
