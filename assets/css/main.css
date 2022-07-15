@@ -8,38 +8,21 @@ html {
     background-color: #7c7c8c;
 }
 
-#home:after { 
-    content:"";
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+#home { 
     height: 100vh;
-    position: fixed;
-    z-index: -1;
-    height: calc(var(--vh, 1vh) * 100);
+    height: calc(var(--vh, 1vh) * 100) - var(--padding-top-home);
     background: url(/assets/img/background.jpg) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-}
-
-#home {
     min-height: 600px - var(--padding-top-home);
     padding: var(--padding-top-home) calc(max(50vw - 425px, 25px));
 }
 
-body:after { 
-    content:"";
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    position: fixed;
-    z-index: -2;
-    height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
+#content { 
+    height: 300vh;
+    height: calc(var(--vh, 1vh) * 300);
     background: url(/assets/img/background.png) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
