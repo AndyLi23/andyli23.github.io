@@ -4,17 +4,30 @@ body {
     font-family: "Noto Sans", sans-serif;
 }
 
+html {
+    background-color: #7c7c8c;
+}
+
 #home { 
     height: 100vh;
-    height: calc(var(--vh, 1vh) * 100);
-    width: 100vw;
+    height: calc(var(--vh, 1vh) * 100) - var(--padding-top-home);
     background: url(/assets/img/background.jpg) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    min-height: 600px;
-    position: absolute;
+    min-height: 600px - var(--padding-top-home);
+    padding: var(--padding-top-home) calc(max(50vw - 425px, 25px));
+}
+
+#content { 
+    height: 300vh;
+    height: calc(var(--vh, 1vh) * 300);
+    background: url(/assets/img/background.png) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 
@@ -24,6 +37,7 @@ body {
     --color-tertiary: #a2bfef;
     --color-quaternary: #94b7f0;
     --color-quinary: #82adf2;
+    --padding-top-home: calc(max(calc(var(--vh, 1vh) * 50) - 275px, 25px));
 }
 
 h1 {
@@ -121,8 +135,6 @@ p {
     -webkit-backdrop-filter: blur(10px);
     width: 850px;
     height: 550px;
-    margin-top: calc(max(calc(var(--vh, 1vh) * 50) - 275px, 25px));
-    margin-left: calc(max(50vw - 425px, 25px));
 }
 
 @media (max-width: 900px) {
