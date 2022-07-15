@@ -3,8 +3,21 @@ $( window ).resize(function() {
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 });
 
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
 let cur = 1;
 let loop = 0;
+
+var style = document.createElement("style");
+var head = document.head || document.getElementsByTagName('head')[0] || document.documentElement;
+
+head.appendChild(style);
+
+style.innerHTML="#home:after { height: calc(var(--vh, 1vh) * 100 - 0px); }";
+// //WebKit Hack
+// style.appendChild(document.createTextNode(""));
+// //Add the <style> element to the page
 
 function scrollTo() {
     console.log("hi");
@@ -12,6 +25,14 @@ function scrollTo() {
         scrollTop: $("#about").offset().top
     }, 2000);
 }
+
+$(window).scroll(function(){
+    var scrollPos = $(document).scrollTop();
+    style.innerHTML = "#home:after { height: calc(var(--vh, 1vh) * 100 - " + scrollPos + "px); }";
+    // document.styleSheets[0].insertRule("#home:after { height: calc(var(--vh, 1vh) * 100 - " + scrollPos + "px); }", 0);
+    // $("#home::after").css('height', 'calc(var(--vh, 1vh) * 100 - ' + scrollPos + 'px)');
+    // console.log("#home::after").css('height');
+});
 
 $(document).keydown(function (e) {
     switch (e.which) {
