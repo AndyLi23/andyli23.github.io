@@ -30,6 +30,15 @@ html {
     background-size: cover;
 }
 
+@supports (-webkit-touch-callout: none) {
+    #home {
+        background: url(/assets/img/background.jpg) no-repeat center center; 
+    }
+
+    #content {
+        background: url(/assets/img/background.png) no-repeat center center; 
+    }
+}
 
 :root {
     --color-primary: #c2d4f2;
