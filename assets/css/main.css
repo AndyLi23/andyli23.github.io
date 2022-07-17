@@ -16,7 +16,7 @@ html {
     right: 0px;
     z-index: -1;
     position: fixed;
-    background: url(/assets/img/background.jpg) no-repeat center center fixed; 
+    background: url(/assets/img/background.jpg) no-repeat center center; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
