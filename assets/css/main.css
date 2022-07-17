@@ -143,15 +143,18 @@ p {
 
 @media (max-width: 900px) {
     #home {
-        min-width: 400px;
-        min-height: 500px;
+        min-height: 500px - var(--padding-top-home);
+        padding: var(--padding-top-home) calc(max(50vw - 190px, 10px));
     }
     #homecont {
         width: 380px;
         height: 450px;
-        margin-top: calc(max(calc(var(--vh, 1vh) * 50) - 240px, 25px));
-        margin-left: calc(max(50vw - 190px, 10px));
     }
+
+    :root {
+        --padding-top-home: calc(max(calc(var(--vh, 1vh) * 50) - 225px, 25px));
+    }
+
     h1 {
         padding-top: 70px;
         padding-bottom: 10px;
