@@ -25,11 +25,11 @@ html {
 }
 
 :root {
-    --color-primary: #c2d4f2;
-    --color-secondary: #b1c9f0;
-    --color-tertiary: #a2bfef;
-    --color-quaternary: #94b7f0;
-    --color-quinary: #82adf2;
+    --color-primary: #697c9c;
+    --color-secondary: #576e97;
+    --color-tertiary: #436091;
+    --color-quaternary: #385992;
+    --color-quinary: #274d8f;
 }
 
 h1 {
@@ -40,9 +40,10 @@ h1 {
     padding-bottom: 0px;
     text-align: center;
     font-family: 'Montserrat', sans-serif;
-    letter-spacing: -17px;
-    word-spacing: 20px;
+    letter-spacing: 5px;
+    word-spacing: 5px;
     animation: shadows 0.8s ease-out forwards, move 0.8s ease-out forwards;
+    color: #d7ecff;
 }
 
 h2 {
@@ -105,15 +106,15 @@ p {
 }
 
 #home {
-  padding: calc(max(150px, calc(50 * var(--vh) - 225px))) calc(max(50px, calc(50vw - 400px)));
-  min-height: 750px;
+  padding: calc(max(80px, calc(50 * var(--vh) - 225px))) calc(max(10px, calc(50vw - 400px)));
+  min-height: 610px;
 }
 
 .home-container {
   max-width: 800px;
   height: 450px;
-  background-color: #ffffff55;
-  border-radius: 50px;
+  background-color: #ffffff00;
+  border-radius: 80px;
 }
 
 
@@ -141,10 +142,9 @@ p {
 }
 
 .navbar {
-  box-shadow: 0px 5px 10px 0px #aaa;
   position: fixed;
   width: 100%;
-  background: #ffffffaa;
+  background: #ffffff88;
   color: #000;
   height: 60px;
   z-index: 12;
@@ -206,7 +206,7 @@ p {
 }
 
 .icons a {
-  padding: 0px 10px;
+  padding: 0px 20px;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -223,7 +223,7 @@ p {
 
   h1 {
     font-size: 100px;
-    letter-spacing: -14px;
+    letter-spacing: 2px;
     padding-top: 60px;
   }
     
@@ -330,17 +330,17 @@ p {
 
 @media (max-width: 600px) {
   h1 {
-    font-size: 70px;
-    letter-spacing: -12px;
+    font-size: 80px;
+    letter-spacing: 0px;
   }
 
   .icons a {
     font-size: 12px;
-    padding: 0px 5px;
+    padding: 0px 8px;
   }
 
   .desc {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     padding: 20px 10px 10px 10px;
     line-height: 35px;
   }  
