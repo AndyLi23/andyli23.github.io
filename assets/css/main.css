@@ -37,10 +37,11 @@ h1 {
     margin: 0;
     width: 100%;
     padding-top: 40px;
-    padding-bottom: 3px;
+    padding-bottom: 0px;
     text-align: center;
     font-family: 'Montserrat', sans-serif;
-    letter-spacing: 15px;
+    letter-spacing: -17px;
+    word-spacing: 20px;
     animation: shadows 0.8s ease-out forwards, move 0.8s ease-out forwards;
 }
 
@@ -101,6 +102,18 @@ h2 {
 p {
     padding: 0;
     margin: 0;
+}
+
+#home {
+  padding: calc(max(150px, calc(50 * var(--vh) - 225px))) calc(max(50px, calc(50vw - 400px)));
+  min-height: 750px;
+}
+
+.home-container {
+  max-width: 800px;
+  height: 450px;
+  background-color: #ffffff55;
+  border-radius: 50px;
 }
 
 
@@ -179,7 +192,40 @@ p {
     width: 100vw;
 }
 
+.desc {
+  padding: 15px 20px;
+  font-size: 2rem;
+  text-align: center;
+  line-height: 50px;
+}
+
+.icons {
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.icons a {
+  padding: 0px 10px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.icons a:hover {
+  transform: scale(1.15);
+}
+
 @media (max-width: 768px) {
+
+  .desc {
+    font-size: 1.8rem;
+    line-height: 45px;
+  }
+
+  h1 {
+    font-size: 100px;
+    letter-spacing: -14px;
+    padding-top: 60px;
+  }
     
       .navbar-container input[type="checkbox"],
       .navbar-container .hamburger-lines {
@@ -280,4 +326,22 @@ p {
       .navbar-container input[type="checkbox"]:checked ~ .hamburger-lines .line3 {
         transform: rotate(-35deg);
       }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 70px;
+    letter-spacing: -12px;
+  }
+
+  .icons a {
+    font-size: 12px;
+    padding: 0px 5px;
+  }
+
+  .desc {
+    font-size: 1.6rem;
+    padding: 20px 10px 10px 10px;
+    line-height: 35px;
+  }  
 }
