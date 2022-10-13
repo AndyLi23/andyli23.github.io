@@ -1,0 +1,148 @@
+.navbar-side {
+    position: fixed;
+    display: block;
+    width: 150px;
+    background: rgb(13,19,64);
+    height: 100vh;
+
+    z-index: 1000;
+}
+
+.navbar-top {
+    display: none;
+
+    z-index: 1000;
+}
+
+.nav-element {
+    font-family: Montserrat;
+    color: white;
+    font-size: 1.4rem;
+
+    padding: 10px 0px 10px 15px;
+
+    transition: transform 0.3s ease-out;
+    transform-style: preserve-3d;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.dropdown_link {
+    list-style: none;
+    font-family: Montserrat;
+    color: white;
+    font-size: 1.4rem;
+    display: block;
+    padding-bottom: 8px;
+    padding-top: 6px;
+    padding-left: 30px;
+
+    transition: transform 0.3s ease-out;
+}
+
+.dropdown_link:hover {
+    transform: translateX(5px);
+    cursor: pointer;
+}
+
+
+.dropdown_link::before {
+    content: '';
+    width: 5px;
+    height: 42px;
+    display: inline-block;
+    position: absolute;
+    background-color: gainsboro;
+
+    transform: translateX(-35px) translateY(-8px);
+}
+
+
+.nav-element:hover {
+    transform: translateX(5px);
+    cursor: pointer;
+}
+
+.nav-element::before {
+    content: '';
+    width: 5px;
+    height: 100%;
+    display: inline-block;
+    position: absolute;
+    background-color: gainsboro;
+
+    transform: translateX(-20px) translateY(-10px);
+}
+
+@media (max-width: 1100px) {
+    .navbar-side {
+        display: none;
+    }
+    .navbar-top {
+        position: fixed;
+        display: block;
+        width: 100vw;
+        height: 70px;
+        background-color: rgb(13, 19, 64);
+        display: flex;
+    }
+}
+
+.hamburger {
+    position: absolute;
+    right: 15px;
+    top: 6px;
+}
+
+
+.dropdown_menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    perspective: 1000px;
+    display: none;
+    background-color: rgb(13, 19, 64);
+    margin: 0;
+
+    padding: 10px 0 20px 0;
+}
+
+.dropdown_menu--animated {
+    display: block;
+}
+
+.dropdown_menu-6 {
+    animation: growDown 300ms ease-in-out forwards;
+    transform-origin: top center;
+}
+
+.dropdown_menu-8 {
+    animation: growUp 300ms ease-in-out forwards;
+    transform-origin: top center;
+    display: block;
+}
+
+@keyframes growDown {
+    0% {
+        transform: scaleY(0)
+    }
+
+    100% {
+        transform: scaleY(1)
+    }
+}
+
+@keyframes growUp {
+    0% {
+        transform: scaleY(1);
+    }
+
+    100% {
+        transform: scaleY(0);
+        display: none;
+    }
+}
