@@ -1,10 +1,20 @@
 $( window ).resize(function() {
     let vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
 });
 
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+
+$(window).scroll(function () {
+  var scrollTop = $(window).scrollTop();
+  var opacity = Math.min(1, scrollTop / window.innerHeight);
+  var color = "rgba(1, 0, 50, " + opacity + ")";
+  $(".navbar").css({ "background": color });
+  
+});
+
 
 $(document).ready(function () {
   // Add smooth scrolling to all links
