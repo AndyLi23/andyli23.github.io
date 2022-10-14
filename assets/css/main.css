@@ -31,7 +31,7 @@ html {
     --color-tertiary: #436091;
     --color-quaternary: #385992;
     --color-quinary: #274d8f;
-    --color-highlight: #062252;
+    --color-highlight: #0e2c5f;
 
     --color-hover: #adb1ff;
     --color-offwhite: #d5d5d5;
@@ -59,7 +59,6 @@ strong {
 strong::before {
   /* Highlight color */
   background-color: var(--color-highlight);
-
   content: "";
   position: absolute;
   width: calc(100% + 4px);
@@ -67,8 +66,8 @@ strong::before {
   left: -2px;
   bottom: 0;
   top: 60px;
-  z-index: -1;
   transform: rotate(-2deg);
+  z-index: -1;
 }
 
 h2 {
@@ -217,14 +216,8 @@ p {
 
 #about {
   background: rgba(1, 0, 35);
-}
-
-.snap {
-  scroll-snap-type: y mandatory;
-}
-
-#about, #home {
-  scroll-snap-align: start;
+  transform-style: preserve-3d;
+  transform: translateZ(-1px);
 }
 
 #about-container {
@@ -249,8 +242,43 @@ p {
   /* margin-top: 30px; */
 }
 
+#project-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: row;
+  padding: 30px 40px 60px 40px;
+  align-items: center;
+  gap: 30px 40px;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.project-box {
+  max-width: 400px;
+  background-color: #00000077;
+  padding: 30px 20px;
+}
+
+.project-box img {
+  width: 100%;
+}
+
+#projects h3 {
+  text-align: center;
+  margin-top: 60px;
+}
+
+h3 strong::before {
+  top: 20px;
+}  
+
 h3 {
+  font-size: 3rem;
   font-weight: bold;
+  font-family: 'Copse', sans-serif;
+  text-shadow: 2px 2px var(--color-quinary);
+  color: var(--color-title);
 }
 
 @media (max-width: 768px) {
@@ -380,6 +408,10 @@ h3 {
   strong::before {
     top: 35px;
   }  
+
+  #about-container h3 {
+    font-size: 2.4rem;
+  }
     
 
   .icons a {
