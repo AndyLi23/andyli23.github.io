@@ -10,10 +10,26 @@ document.documentElement.style.setProperty('--vh', `${vh}px`);
 $(window).scroll(function () {
   var scrollTop = $(window).scrollTop();
   var opacity = Math.min(1, scrollTop / window.innerHeight);
-  var color = "rgba(1, 0, 50, " + opacity + ")";
+  var color = "rgba(1, 0, 35, " + opacity + ")";
   $(".navbar").css({ "background": color });
   
 });
+
+$(".logo").click(
+  function () {
+    $('html, body').animate(
+      {
+        scrollTop: $("#home").offset().top,
+      },
+      600,
+      "easeInOutQuint",
+      function () {
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = "home";
+      }
+    );
+  }
+)
 
 
 $(document).ready(function () {
@@ -33,7 +49,8 @@ $(document).ready(function () {
         {
           scrollTop: $(hash).offset().top,
         },
-        400,
+        600,
+        "easeInOutQuint",
         function () {
           // Add hash (#) to URL when done scrolling (default click behavior)
           window.location.hash = hash;
