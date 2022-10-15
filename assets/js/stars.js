@@ -5,7 +5,7 @@
  */
 
 // Settings
-var particleCount = 200,
+var particleCount = 400,
   flareCount = 0,
   motion = 0.05,
   tilt = 0.05,
@@ -15,10 +15,10 @@ var particleCount = 200,
   flareSizeBase = 100,
   flareSizeMultiplier = 100,
   lineWidth = 2,
-  linkChance = 20, // chance per frame of link, higher = smaller chance
+  linkChance = 3, // chance per frame of link, higher = smaller chance
   linkLengthMin = 5, // min linked vertices
   linkLengthMax = 20, // max linked vertices
-  linkOpacity = 0.3; // number between 0 & 1
+  linkOpacity = 0.2; // number between 0 & 1
   linkFade = 60, // link fade-out frames
   linkSpeed = 1, // distance a link travels in 1 frame
   glareAngle = -60,
@@ -228,7 +228,7 @@ function startLink(vertex, length) {
 var Particle = function() {
   this.x = random(-0.1, 1.1, true);
   this.y = random(-0.1, 1.1, true);
-  this.z = random(0,3);
+  this.z = random(0,4);
   this.color = color;
   this.opacity = random(0.2,1,true);
   this.flicker = 0;
@@ -236,7 +236,7 @@ var Particle = function() {
 };
 Particle.prototype.render = function() {
   var pos = position(this.x, this.y, this.z),
-    r = ((this.z * particleSizeMultiplier) + particleSizeBase),
+    r = ((this.z * particleSizeMultiplier) + particleSizeBase) * 0.7,
     o = this.opacity;
 
   if (flicker) {
