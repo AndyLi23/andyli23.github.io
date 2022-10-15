@@ -59,14 +59,14 @@ function init() {
   var i, j, k;
 
   // requestAnimFrame polyfill
-  window.requestAnimFrame = (function(){
-    return  window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        function( callback ){
-          window.setTimeout(callback, 1000 / 60);
-        };
-  })();
+//   window.requestAnimFrame = (function(){
+//     return  window.requestAnimationFrame ||
+//         window.webkitRequestAnimationFrame ||
+//         window.mozRequestAnimationFrame ||
+//         function( callback ){
+//           window.setTimeout(callback, 1000 / 60);
+//         };
+//   })();
 
   // Fade in background
   /*
