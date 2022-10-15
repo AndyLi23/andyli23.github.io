@@ -5,7 +5,7 @@
  */
 
 // Settings
-var particleCount = 400,
+var particleCount = 200,
   flareCount = 0,
   motion = 0.05,
   tilt = 0.05,
@@ -59,14 +59,14 @@ function init() {
   var i, j, k;
 
   // requestAnimFrame polyfill
-//   window.requestAnimFrame = (function(){
-//     return  window.requestAnimationFrame ||
-//         window.webkitRequestAnimationFrame ||
-//         window.mozRequestAnimationFrame ||
-//         function( callback ){
-//           window.setTimeout(callback, 1000 / 60);
-//         };
-//   })();
+  window.requestAnimFrame = (function(){
+    return  window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        function( callback ){
+          window.setTimeout(callback, 1000 / 60);
+        };
+  })();
 
   // Fade in background
   /*
@@ -164,17 +164,11 @@ function init() {
   }
 
   // Animation loop
-    // (function animloop() {
-    //     requestAnimFrame(animloop);
-    //     resize();
-    //     render();
-    // })();
-    interval = setInterval(update, 1000 / 60);
-}
-
-function update() {
-    resize();
-    render();
+    (function animloop() {
+        requestAnimFrame(animloop);
+        resize();
+        render();
+    })();
 }
 
 function render() {
@@ -351,7 +345,7 @@ Link.prototype.render = function() {
 
             this.distances.push(dist);
         }
-        //console.log('Distances: '+JSON.stringify(this.distances));
+        // console.log('Distances: '+JSON.stringify(this.distances));
         //console.log('verts: '+this.verts.length+' distances: '+this.distances.length);
 
         //console.log(this.verts[0]+' moving to stage 1');

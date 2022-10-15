@@ -5,13 +5,13 @@ $( window ).resize(function() {
 });
 
 function reload() {
-  let ph = $("#projects").height();
-  console.log(ph);
-  $("#stars").css(
-    {
-      "height": ph + "px"
-    }
-  )
+  // let ph = $("#projects").height();
+  // console.log(ph);
+  // $("#stars").css(
+  //   {
+  //     "height": ph + "px"
+  //   }
+  // )
 }
 
 // reload()
