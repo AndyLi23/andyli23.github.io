@@ -1,7 +1,20 @@
 $( window ).resize(function() {
     let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
+  reload();
 });
+
+function reload() {
+  let ph = $("#projects").height();
+  console.log(ph);
+  $("#stars").css(
+    {
+      "height": ph + "px"
+    }
+  )
+}
+
+// reload()
 
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -14,6 +27,7 @@ $(window).scroll(function () {
   $(".navbar").css({ "background": color });
   
 });
+
 
 $(".logo").click(
   function () {
@@ -58,4 +72,9 @@ $(document).ready(function () {
       );
     } // End if
   });
+});
+
+$(document).ready(function() {
+  reload();
+  AOS.init({once: true});
 });

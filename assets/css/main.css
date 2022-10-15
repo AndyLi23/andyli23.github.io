@@ -2,6 +2,7 @@ body {
     margin: 0;
     color: white;
     font-family: "Noto Sans", sans-serif;
+    overflow-x: hidden;
 }
 
 html {
@@ -88,7 +89,7 @@ p {
 }
 
 #home {
-  padding: calc(max(80px, calc(50 * var(--vh) - 225px))) calc(max(10px, calc(50vw - 400px)));
+  padding: calc(max(80px, calc(50vh - 225px))) calc(max(10px, calc(50vw - 400px)));
   min-height: 610px;
 }
 
@@ -184,7 +185,7 @@ p {
 }
 
 #home {
-    height: calc(100 * var(--vh));
+    height: 100vh;
     width: 100vw;
 }
 
@@ -221,7 +222,7 @@ p {
   justify-content: center;
   flex-direction: row;
   padding: 100px 50px;
-  align-items: center;
+  /* align-items: center; */
   gap: 40px 30px;
 }
 
@@ -231,10 +232,14 @@ p {
 }
 
 #about-pg {
-  min-width: 360px;
   font-size: 1.6rem;
   max-width: 600px;
-  /* margin-top: 30px; */
+  display: flex;
+  align-items: center;
+}
+
+#projects {
+  background-color: black;
 }
 
 #project-container {
@@ -244,17 +249,18 @@ p {
   flex-direction: row;
   padding: 30px 40px 60px 40px;
   align-items: center;
-  gap: 30px 40px;
+  gap: 60px 0px;
   max-width: 1400px;
   margin: auto;
   align-items: initial;
+  z-index: 1;
+  position: relative;
 }
 
 .project-box {
-  max-width: 400px;
-  background-color: #000000bb;
+  max-width: 1200px;
+  background-color: rgba(1, 0, 35);
   padding: 30px 20px;
-  text-align: center;
 }
 
 .project-box img {
@@ -274,7 +280,14 @@ p {
 
 #projects h3 {
   text-align: center;
-  margin-top: 60px;
+  padding-top: 60px;
+  padding-bottom: 30px;
+}
+
+#stars {
+  position: absolute;
+  width: 100%;
+  z-index: 0;
 }
 
 h3 strong::before {
