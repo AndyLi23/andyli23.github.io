@@ -5,7 +5,7 @@ body {
 }
 
 html {
-    background-color: #7c7c8c;
+    background-color: rgba(1, 0, 35);
 }
 
 
@@ -23,8 +23,6 @@ html {
     -o-background-size: cover;
     background-size: cover;
     max-height: 100vh;
-    transform-style: preserve-3d;
-    transform: translateZ(-3px);
 }
 
 :root {
@@ -56,6 +54,7 @@ h1 {
 
 strong {
   position: relative;
+  z-index: 1;
 }
 
 strong::before {
@@ -218,8 +217,6 @@ p {
 
 #about {
   background: rgba(1, 0, 35);
-  transform-style: preserve-3d;
-  transform: translateZ(-1px);
 }
 
 #about-container {
