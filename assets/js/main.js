@@ -14,6 +14,18 @@ function reload() {
   // )
 }
 
+$(document).scroll(function() {
+  var rect = document.getElementById("projects").getBoundingClientRect()
+  if (rect.y < 0) {
+    document.getElementById("stars").style.transform = "translateY(" + (-rect.y) + "px)";
+  } else if (rect.y < window.innerHeight ) {
+    // console.log("translateY(" + (-rect.y) + "px);");
+    // console.log(rect);
+    document.getElementById("stars").style.transform = "translateY(" + 0 + "px)";
+  }
+});
+
+
 // reload()
 
 let vh = window.innerHeight * 0.01;
