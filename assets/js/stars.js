@@ -15,9 +15,9 @@ var particleCount = 400,
   flareSizeBase = 100,
   flareSizeMultiplier = 100,
   lineWidth = 2,
-  linkChance = 3, // chance per frame of link, higher = smaller chance
+  linkChance = 20, // chance per frame of link, higher = smaller chance
   linkLengthMin = 5, // min linked vertices
-  linkLengthMax = 8, // max linked vertices
+  linkLengthMax = 20, // max linked vertices
   linkOpacity = 0.3; // number between 0 & 1
   linkFade = 60, // link fade-out frames
   linkSpeed = 1, // distance a link travels in 1 frame
@@ -64,7 +64,7 @@ function init() {
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
         function( callback ){
-          window.setTimeout(callback, 1000 / 60);
+          window.setTimeout(callback, 1000 / 5);
         };
   })();
 
@@ -149,12 +149,12 @@ function init() {
   }
   else {
     // Mouse move listener
-    // console.log('Using mouse movement');
-    // document.body.addEventListener('mousemove', function(e) {
-    //   //console.log('moved');
-    //   mouse.x = e.clientX;
-    //   mouse.y = e.clientY;
-    // });
+    console.log('Using mouse movement');
+    document.body.addEventListener('mousemove', function(e) {
+      //console.log('moved');
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
   }
 
   // Random motion
@@ -252,7 +252,7 @@ Particle.prototype.render = function() {
   context.fillStyle = this.color;
   context.globalAlpha = o;
   context.beginPath();
-  context.arc(Math.round(pos.x), Math.round(pos.y), r, 0, 2 * Math.PI, false);
+  context.arc(pos.x, pos.y, r, 0, 2 * Math.PI, false);
   context.fill();
   context.closePath();
 
