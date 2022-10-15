@@ -303,6 +303,11 @@ h3 {
   color: var(--color-title);
 }
 
+#experience {
+  background-color: #00000077;
+  min-height: 100vh;
+}
+
 @media (max-width: 768px) {
 
   .desc {

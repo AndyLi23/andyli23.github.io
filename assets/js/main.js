@@ -6,10 +6,16 @@ $( window ).resize(function() {
 
 function reload() {
   var rect = document.getElementById("projects").getBoundingClientRect()
-  if (rect.y < 0) {
-    $("#stars").css({ "transform": "none", "position": "fixed", "top": "0", "bottom": "0"});
+  var rect2 = document.getElementById("stars").getBoundingClientRect()
+
+  console.log(rect);
+  if (rect.bottom <= window.innerHeight) {
+    console.log("yikes");
+    $("#stars").css({ "transform": "translateY(" + (rect.height - rect2.height) + "px)", "position": "absolute", "top": "", "bottom": ""});
+  } else if (rect.y <= 0) {
+    $("#stars").css({ "transform": "", "position": "fixed", "top": "0", "bottom": "0" });
     // document.getElementById("stars").style.transform = "translateY(" + (-rect.y) + "px)";
-  } else if (rect.y < window.innerHeight) {
+  } else {
     $("#stars").css({ "transform": "translateY(" + 0 + "px)", "position": "absolute", "top": "", "bottom": ""});
     // document.getElementById("stars").style.transform = "translateY(" + 0 + "px)";
   }
