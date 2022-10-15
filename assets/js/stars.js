@@ -64,7 +64,7 @@ function init() {
         window.webkitRequestAnimationFrame ||
         window.mozRequestAnimationFrame ||
         function( callback ){
-          window.setTimeout(callback, 1000 / 5);
+          window.setTimeout(callback, 1000 / 60);
         };
   })();
 
@@ -164,11 +164,17 @@ function init() {
   }
 
   // Animation loop
-  (function animloop(){
-    requestAnimFrame(animloop);
+    // (function animloop() {
+    //     requestAnimFrame(animloop);
+    //     resize();
+    //     render();
+    // })();
+    interval = setInterval(update, 1000 / 60);
+}
+
+function update() {
     resize();
     render();
-  })();
 }
 
 function render() {
