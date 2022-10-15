@@ -5,25 +5,16 @@ $( window ).resize(function() {
 });
 
 function reload() {
-  // let ph = $("#projects").height();
-  // console.log(ph);
-  // $("#stars").css(
-  //   {
-  //     "height": ph + "px"
-  //   }
-  // )
-}
-
-$(document).scroll(function() {
   var rect = document.getElementById("projects").getBoundingClientRect()
   if (rect.y < 0) {
-    document.getElementById("stars").style.transform = "translateY(" + (-rect.y) + "px)";
-  } else if (rect.y < window.innerHeight ) {
-    // console.log("translateY(" + (-rect.y) + "px);");
-    // console.log(rect);
-    document.getElementById("stars").style.transform = "translateY(" + 0 + "px)";
+    $("#stars").css({ "transform": "none", "position": "fixed", "top": "0", "bottom": "0"});
+    // document.getElementById("stars").style.transform = "translateY(" + (-rect.y) + "px)";
+  } else if (rect.y < window.innerHeight) {
+    $("#stars").css({ "transform": "translateY(" + 0 + "px)", "position": "absolute" });
+    // document.getElementById("stars").style.transform = "translateY(" + 0 + "px)";
   }
-});
+}
+
 
 
 // reload()
@@ -32,12 +23,12 @@ let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
 
 
-$(window).scroll(function () {
+$(window).scroll(function () {  
   var scrollTop = $(window).scrollTop();
   var opacity = Math.min(1, scrollTop / window.innerHeight);
   var color = "rgba(1, 0, 35, " + opacity + ")";
   $(".navbar").css({ "background": color });
-  
+  reload();
 });
 
 
