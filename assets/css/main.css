@@ -23,6 +23,8 @@ html {
     -o-background-size: cover;
     background-size: cover;
     max-height: 100vh;
+    transform-style: preserve-3d;
+    transform: translateZ(-3px);
 }
 
 :root {
@@ -252,16 +254,29 @@ p {
   gap: 30px 40px;
   max-width: 1400px;
   margin: auto;
+  align-items: initial;
 }
 
 .project-box {
   max-width: 400px;
   background-color: #00000077;
   padding: 30px 20px;
+  text-align: center;
 }
 
 .project-box img {
-  width: 100%;
+  width: calc(100% - 40px);
+  margin: 0px 20px;
+}
+
+.project-title {
+  font-size: 1.6rem;
+  padding-bottom: 20px;
+}
+
+.project-pg {
+  font-size: 1.2rem;
+  padding-top: 10px;
 }
 
 #projects h3 {
@@ -296,6 +311,18 @@ h3 {
   strong::before {
     top: 50px;
   }  
+
+  #about-pg {
+    font-size: 1.3rem;
+  }  
+
+  h3 {
+    font-size: 2.3rem;
+  }
+
+  .project-pg {
+    font-size: 1.2rem;
+  }
     
       .navbar-container input[type="checkbox"],
       .navbar-container .hamburger-lines {
@@ -379,7 +406,7 @@ h3 {
         position: absolute;
         top: 14px;
         right: 15px;
-        font-size: 1.8rem;
+        font-size: 1.6rem;
       }
     
       .navbar-container input[type="checkbox"]:checked ~ .menu-items {
