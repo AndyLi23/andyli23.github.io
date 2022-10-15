@@ -5,7 +5,7 @@
  */
 
 // Settings
-var particleCount = 2000,
+var particleCount = 600,
   flareCount = 0,
   motion = 0.05,
   tilt = 0.05,
@@ -15,26 +15,26 @@ var particleCount = 2000,
   flareSizeBase = 100,
   flareSizeMultiplier = 100,
   lineWidth = 1,
-  linkChance = 0, // chance per frame of link, higher = smaller chance
+  linkChance = 3, // chance per frame of link, higher = smaller chance
   linkLengthMin = 8, // min linked vertices
   linkLengthMax = 12, // max linked vertices
   linkOpacity = 0.3; // number between 0 & 1
   linkFade = 60, // link fade-out frames
-  linkSpeed = 0.33, // distance a link travels in 1 frame
+  linkSpeed = 1, // distance a link travels in 1 frame
   glareAngle = -60,
-  glareOpacityMultiplier = 0.02,
+  glareOpacityMultiplier = 0,
   renderParticles = true,
-  renderParticleGlare = true,
-  renderFlares = true,
+  renderParticleGlare = false,
+  renderFlares = false,
   renderLinks = true,
   renderMesh = false,
   flicker = true,
-  flickerSmoothing = 15, // higher = smoother flicker
+  flickerSmoothing = 5, // higher = smoother flicker
   blurSize = 0,
   orbitTilt = true,
   randomMotion = true,
   noiseLength = 1000,
-  noiseStrength = 1;
+  noiseStrength = 2;
 
 var canvas = document.getElementById('stars'),
   //orbits = document.getElementById('orbits'),
