@@ -5,7 +5,7 @@
  */
 
 // Settings
-var particleCount = 600,
+var particleCount = 400,
   flareCount = 0,
   motion = 0.05,
   tilt = 0.05,
@@ -14,10 +14,10 @@ var particleCount = 600,
   particleSizeMultiplier = 1,
   flareSizeBase = 100,
   flareSizeMultiplier = 100,
-  lineWidth = 1,
+  lineWidth = 2,
   linkChance = 3, // chance per frame of link, higher = smaller chance
-  linkLengthMin = 8, // min linked vertices
-  linkLengthMax = 12, // max linked vertices
+  linkLengthMin = 5, // min linked vertices
+  linkLengthMax = 8, // max linked vertices
   linkOpacity = 0.3; // number between 0 & 1
   linkFade = 60, // link fade-out frames
   linkSpeed = 1, // distance a link travels in 1 frame
@@ -29,7 +29,7 @@ var particleCount = 600,
   renderLinks = true,
   renderMesh = false,
   flicker = true,
-  flickerSmoothing = 5, // higher = smoother flicker
+  flickerSmoothing = 15, // higher = smoother flicker
   blurSize = 0,
   orbitTilt = true,
   randomMotion = true,
@@ -149,12 +149,12 @@ function init() {
   }
   else {
     // Mouse move listener
-    console.log('Using mouse movement');
-    document.body.addEventListener('mousemove', function(e) {
-      //console.log('moved');
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-    });
+    // console.log('Using mouse movement');
+    // document.body.addEventListener('mousemove', function(e) {
+    //   //console.log('moved');
+    //   mouse.x = e.clientX;
+    //   mouse.y = e.clientY;
+    // });
   }
 
   // Random motion
@@ -183,42 +183,13 @@ function render() {
   }
 
   // Clear
-  context.clearRect(0, 0, canvas.width, canvas.height);
-
-  if (blurSize > 0) {
-    context.shadowBlur = blurSize;
-    context.shadowColor = color;
-  }
-
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    
   if (renderParticles) {
     // Render particles
     for (var i = 0; i < particleCount; i++) {
       particles[i].render();
     }
-  }
-
-  if (renderMesh) {
-    // Render all lines
-    context.beginPath();
-    for (var v = 0; v < vertices.length-1; v++) {
-      // Splits the array into triplets
-      if ((v + 1) % 3 === 0) { continue; }
-
-      var p1 = particles[vertices[v]],
-        p2 = particles[vertices[v+1]];
-
-      //console.log('Line: '+p1.x+','+p1.y+'->'+p2.x+','+p2.y);
-
-      var pos1 = position(p1.x, p1.y, p1.z),
-        pos2 = position(p2.x, p2.y, p2.z);
-
-      context.moveTo(pos1.x, pos1.y);
-      context.lineTo(pos2.x, pos2.y);
-    }
-    context.strokeStyle = color;
-    context.lineWidth = lineWidth;
-    context.stroke();
-    context.closePath();
   }
 
   if (renderLinks) {
@@ -241,21 +212,6 @@ function render() {
     }
   }
 
-  if (renderFlares) {
-    // Render flares
-    for (var j = 0; j < flareCount; j++) {
-      flares[j].render();
-    }
-  }
-
-  /*
-  if (orbitTilt) {
-    var tiltX = -(((canvas.clientWidth / 2) - mouse.x + ((nPos.x - 0.5) * noiseStrength)) * tilt),
-      tiltY = (((canvas.clientHeight / 2) - mouse.y + ((nPos.y - 0.5) * noiseStrength)) * tilt);
-
-    orbits.style.transform = 'rotateY('+tiltX+'deg) rotateX('+tiltY+'deg)';
-  }
-  */
 }
 
 function resize() {
@@ -274,13 +230,13 @@ var Particle = function() {
   this.y = random(-0.1, 1.1, true);
   this.z = random(0,3);
   this.color = color;
-  this.opacity = random(0.1,1,true);
+  this.opacity = random(0.2,1,true);
   this.flicker = 0;
   this.neighbors = []; // placeholder for neighbors
 };
 Particle.prototype.render = function() {
   var pos = position(this.x, this.y, this.z),
-    r = ((this.z * particleSizeMultiplier) + particleSizeBase) * 0.5,
+    r = ((this.z * particleSizeMultiplier) + particleSizeBase),
     o = this.opacity;
 
   if (flicker) {
@@ -296,21 +252,9 @@ Particle.prototype.render = function() {
   context.fillStyle = this.color;
   context.globalAlpha = o;
   context.beginPath();
-  context.arc(pos.x, pos.y, r, 0, 2 * Math.PI, false);
+  context.arc(Math.round(pos.x), Math.round(pos.y), r, 0, 2 * Math.PI, false);
   context.fill();
   context.closePath();
-
-  if (renderParticleGlare) {
-    context.globalAlpha = o * glareOpacityMultiplier;
-    /*
-    context.ellipse(pos.x, pos.y, r * 30, r, 90 * (Math.PI / 180), 0, 2 * Math.PI, false);
-    context.fill();
-    context.closePath();
-    */
-    context.ellipse(pos.x, pos.y, r * 100, r, (glareAngle - ((nPos.x - 0.5) * noiseStrength * motion)) * (Math.PI / 180), 0, 2 * Math.PI, false);
-    context.fill();
-    context.closePath();
-  }
 
   context.globalAlpha = 1;
 };
@@ -341,7 +285,7 @@ Flare.prototype.render = function() {
 
   context.beginPath();
   context.globalAlpha = this.opacity;
-  context.arc(pos.x, pos.y, r, 0, 2 * Math.PI, false);
+  context.arc(Math.round(pos.x), Math.round(pos.y), r, 0, 2 * Math.PI, false);
   context.fillStyle = this.color;
   context.fill();
   context.closePath();
@@ -512,8 +456,8 @@ Link.prototype.drawLine = function(points, alpha) {
     context.globalAlpha = alpha;
     context.beginPath();
     for (var i = 0; i < points.length-1; i++) {
-      context.moveTo(points[i][0], points[i][1]);
-      context.lineTo(points[i+1][0], points[i+1][1]);
+      context.moveTo(Math.round(points[i][0]), Math.round(points[i][1]));
+      context.lineTo(Math.round(points[i+1][0]), Math.round(points[i+1][1]));
     }
     context.strokeStyle = color;
     context.lineWidth = lineWidth;
