@@ -10,7 +10,7 @@ function reload() {
     $("#stars").css({ "transform": "none", "position": "fixed", "top": "0", "bottom": "0"});
     // document.getElementById("stars").style.transform = "translateY(" + (-rect.y) + "px)";
   } else if (rect.y < window.innerHeight) {
-    $("#stars").css({ "transform": "translateY(" + 0 + "px)", "position": "absolute" });
+    $("#stars").css({ "transform": "translateY(" + 0 + "px)", "position": "absolute", "top": "", "bottom": ""});
     // document.getElementById("stars").style.transform = "translateY(" + 0 + "px)";
   }
 }
