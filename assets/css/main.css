@@ -31,6 +31,9 @@ html {
     --color-highlight: #0e2c5f;
 
     --color-hover: #adb1ff;
+    --color-link: #dadcff;
+    --color-link-hover: #6f79ff;
+
     --color-offwhite: #d5d5d5;
     --color-title: #d7ecff;
 }
@@ -150,23 +153,17 @@ p {
   margin-left: 1.5rem;
   margin-bottom: 0.5rem;
   font-size: 1.2rem;
-  transition: transform 0.3s ease-in-out;
-}
-
-.menu-items li:hover {
-  transform: scale(1.1);
 }
 
 .menu-items a {
   text-decoration: none;
   color: var(--color-offwhite);
   font-weight: 500;
-  transition: color 0.3s ease-in-out;
+  transition: color 0.1s ease-in-out;
 }
 
 .menu-items a:hover {
   color: var(--color-hover);
-  transition: color 0.3s ease-in-out;
 }
 
 .logo {
@@ -176,12 +173,10 @@ p {
   color: var(--color-title);
   text-shadow: 2px 2px var(--color-quinary);
   font-family: 'Copse', sans-serif;
-  transition: transform 0.3s ease-in-out;
 }
 
 .logo:hover {
   cursor: pointer;
-  transform: scale(1.1);
 }
 
 #home {
@@ -340,7 +335,66 @@ h3 {
 
 #experience {
   background-color: #00000077;
-  min-height: 100vh;
+  padding: 60px 30px;
+}
+
+#experience-container {
+  max-width: 800px;
+  margin: auto;
+  margin-top: 40px;
+}
+
+#experience h3 {
+  text-align: center;
+}
+
+#experience-container ul{
+  list-style: none;
+  margin:0;
+  padding:0;
+  position: relative;
+}  
+#experience-container ul::before{
+  content:"";
+  display: inline-block;
+  width: 6px;
+  background: white;
+  position: absolute;
+  left:6px;
+  top:18px;
+  height: calc(100% - 60px);
+}
+#experience-container li{
+  position: relative;
+  padding-left: 35px;
+  margin-bottom:35px;
+  font-size: 1.6rem;
+}
+#experience-container li::before{
+  content:"";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: white;
+  position: absolute;
+  left:0;
+  top:18px;
+  border-radius: 10px;
+}
+
+#experience-container li a {
+  transition: color 0.1s ease-in-out;
+  color: var(--color-link);
+}
+
+#experience-container li a:hover {
+  cursor: pointer;
+  color: var(--color-link-hover);
+}
+
+#experience-container li em {
+  font-style: normal;
+  font-weight: bold;
 }
 
 @media (max-width: 1400px) {
@@ -365,6 +419,14 @@ h3 {
 }  
 
 @media (max-width: 768px) {
+
+  #experience {
+    padding: 60px 20px;
+  }
+
+  #about-container {
+    padding: 50px 20px;
+  }
 
   .desc {
     font-size: 1.8rem;
