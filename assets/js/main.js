@@ -8,16 +8,12 @@ function reload() {
   var rect = document.getElementById("projects").getBoundingClientRect()
   var rect2 = document.getElementById("stars").getBoundingClientRect()
 
-  console.log(rect);
   if (rect.bottom <= window.innerHeight) {
-    console.log("yikes");
     $("#stars").css({ "transform": "translateY(" + (rect.height - rect2.height) + "px)", "position": "absolute", "top": "", "bottom": ""});
   } else if (rect.y <= 0) {
     $("#stars").css({ "transform": "", "position": "fixed", "top": "0", "bottom": "0" });
-    // document.getElementById("stars").style.transform = "translateY(" + (-rect.y) + "px)";
   } else {
     $("#stars").css({ "transform": "translateY(" + 0 + "px)", "position": "absolute", "top": "", "bottom": ""});
-    // document.getElementById("stars").style.transform = "translateY(" + 0 + "px)";
   }
 }
 
@@ -86,4 +82,28 @@ $(document).ready(function () {
 $(document).ready(function() {
   reload();
   AOS.init({once: true});
+});
+
+let dropdowns = document.querySelectorAll('.ex-list');
+
+dropdowns.forEach(dropdownItem => {
+  dropdownItem.addEventListener('mouseover', (e) => {
+
+    dropdownPg = dropdownItem.querySelector('p');
+
+    dropdownPg.style.setProperty('--openHeight', dropdownPg.scrollHeight + 'px');
+
+    dropdownPg.classList.toggle('show');
+    dropdownPg.classList.toggle('hide');
+  })
+
+  dropdownItem.addEventListener('mouseout', (e) => {
+
+    dropdownPg = dropdownItem.querySelector('p');
+
+    dropdownPg.style.setProperty('--openHeight', dropdownPg.scrollHeight + 'px');
+
+    dropdownPg.classList.toggle('show');
+    dropdownPg.classList.toggle('hide');
+  })
 });

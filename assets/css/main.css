@@ -397,6 +397,21 @@ h3 {
   font-weight: bold;
 }
 
+.ex-pg {
+  overflow: hidden;
+  transition: height 0.6s ease;
+}  
+
+.ex-pg.hide {
+  height: 0;
+  transition: height 1.2s ease;
+
+}
+
+.ex-pg.show {
+  height: var(--openHeight);
+}
+
 @media (max-width: 1400px) {
   .project-box {
     display: none;
