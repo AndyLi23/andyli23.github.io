@@ -362,7 +362,7 @@ h3 {
   background: white;
   position: absolute;
   left:6px;
-  top:18px;
+  top:20px;
   height: calc(100% - 60px);
 }
 #experience-container li{
@@ -429,18 +429,39 @@ h3 {
   padding: 20px 0;
 }
 
-#contact-container p {
-  color: var(--color-offwhite);
-  font-size: 1.6rem;
-  text-align: center;
-}
-
 #contact-container i {
   color: var(--color-off-offwhite);
   font-size: 1.2rem;
   text-align: center;
   font-style: normal;
 }
+
+#contact-container a {
+  font-size: 1.4rem;
+  transition: color 0.1s ease-in-out;
+  color: var(--color-link);
+  margin: 5px;
+}
+
+#contact-links {
+  color: var(--color-link);
+  font-size: 1.4rem;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#contact-container a:hover {
+  cursor: pointer;
+  color: var(--color-link-hover);
+}
+
+#credits {
+  color: var(--color-offwhite);
+  font-size: 1.6rem;
+  text-align: center;
+}
+
 
 @media (max-width: 1400px) {
   .project-box {
