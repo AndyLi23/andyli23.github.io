@@ -86,24 +86,36 @@ $(document).ready(function() {
 
 let dropdowns = document.querySelectorAll('.ex-list');
 
+function show(dropdownItem) {
+  let dropdownPg = dropdownItem.querySelector('p');
+
+  dropdownPg.style.setProperty('--openHeight', dropdownPg.scrollHeight + 'px');
+
+  dropdownPg.classList.add('show');
+  dropdownPg.classList.remove('hide');
+}
+
+function hide(dropdownItem) {
+  let dropdownPg = dropdownItem.querySelector('p');
+
+  dropdownPg.style.setProperty('--openHeight', dropdownPg.scrollHeight + 'px');
+
+  dropdownPg.classList.remove('show');
+  dropdownPg.classList.add('hide');
+}
+
+function toggle(dropdownItem) {
+  let dropdownPg = dropdownItem.querySelector('p');
+
+  dropdownPg.style.setProperty('--openHeight', dropdownPg.scrollHeight + 'px');
+
+  dropdownPg.classList.toggle('show');
+  dropdownPg.classList.toggle('hide');
+}
+
 dropdowns.forEach(dropdownItem => {
-  dropdownItem.addEventListener('mouseover', (e) => {
-
-    dropdownPg = dropdownItem.querySelector('p');
-
-    dropdownPg.style.setProperty('--openHeight', dropdownPg.scrollHeight + 'px');
-
-    dropdownPg.classList.toggle('show');
-    dropdownPg.classList.toggle('hide');
-  })
-
-  dropdownItem.addEventListener('mouseout', (e) => {
-
-    dropdownPg = dropdownItem.querySelector('p');
-
-    dropdownPg.style.setProperty('--openHeight', dropdownPg.scrollHeight + 'px');
-
-    dropdownPg.classList.toggle('show');
-    dropdownPg.classList.toggle('hide');
-  })
+  dropdownItem.addEventListener('mouseover', (e) => show(dropdownItem));
+  dropdownItem.addEventListener('mouseout', (e) => hide(dropdownItem));
+  dropdownItem.addEventListener('touchstart', (e) => toggle(dropdownItem));
+  dropdownItem.addEventListener('mousedown', (e) => toggle(dropdownItem));
 });

@@ -222,12 +222,12 @@ p {
 }
 
 #about-img img {
-  max-height: 500px;
+  max-height: 400px;
   max-width: 100%;
 }
 
 #about-pg {
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   max-width: 600px;
   display: flex;
   align-items: center;
@@ -244,7 +244,7 @@ p {
   flex-direction: row;
   padding: 30px 40px 60px 40px;
   align-items: center;
-  gap: 60px 0px;
+  gap: 40px 0px;
   max-width: 1400px;
   margin: auto;
   align-items: initial;
@@ -273,8 +273,8 @@ p {
 }
 
 .project-btn {
-  padding: 0.5rem 2.5rem;
-  font-size: 1.6rem;
+  padding: 0.2rem 1.8rem;
+  font-size: 1.4rem;
   border: 3px solid white;
   font-weight: 600;
   border-radius: 15px;
@@ -288,7 +288,7 @@ p {
 }
 
 .project-2 {
-  width: 800px;
+  width: 600px;
   float: left;
   margin: 0px 20px;
   height: 100%;
@@ -299,12 +299,12 @@ p {
 }
 
 .project-title {
-  font-size: 2rem;
+  font-size: 1.9rem;
   padding-bottom: 20px;
 }
 
 .project-pg {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   padding-bottom: 40px;
 }
 
@@ -368,7 +368,7 @@ h3 {
   position: relative;
   padding-left: 35px;
   margin-bottom:35px;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
 }
 #experience-container li::before{
   content:"";
@@ -399,12 +399,13 @@ h3 {
 
 .ex-pg {
   overflow: hidden;
-  transition: height 0.6s ease;
+  transition: height 0.4s ease;
+  font-size: 1.2rem;
 }  
 
 .ex-pg.hide {
   height: 0;
-  transition: height 1.2s ease;
+  transition: height 1s ease;
 
 }
 
@@ -419,17 +420,24 @@ h3 {
   .project-box-mobile {
     display: block;
     margin: 0px 20px;
+    padding: 30px;
   }
   .project-box-mobile img {
     width: calc(100% - 60px);
+    max-width: 600px;
   }
   .project-pg {
     margin-top: 20px;
+    padding: 0px calc(50% - 350px) 20px calc(50% - 350px);
   }
 
   .project-btn {
-    font-size: 1.4rem;
-    padding: 0.4rem 1.5rem;
+    font-size: 1.3rem;
+    padding: 0.2rem 1.3rem;
+  }
+
+  #project-container {
+    gap: 30px 0px;
   }
 }  
 
@@ -437,6 +445,14 @@ h3 {
 
   #experience {
     padding: 60px 20px;
+  }
+
+  #experience-container li {
+    font-size: 1.3rem;
+  }
+
+  .ex-pg {
+    font-size: 1.1rem;
   }
 
   #about-container {
