@@ -104,18 +104,20 @@ function hide(dropdownItem) {
   dropdownPg.classList.add('hide');
 }
 
-function toggle(dropdownItem) {
+function toggle(dropdownItem, e) {
   let dropdownPg = dropdownItem.querySelector('p');
 
   dropdownPg.style.setProperty('--openHeight', dropdownPg.scrollHeight + 'px');
 
   dropdownPg.classList.toggle('show');
   dropdownPg.classList.toggle('hide');
+
+  e.preventDefault();
 }
 
 dropdowns.forEach(dropdownItem => {
   dropdownItem.addEventListener('mouseover', (e) => show(dropdownItem));
   dropdownItem.addEventListener('mouseout', (e) => hide(dropdownItem));
-  dropdownItem.addEventListener('touchstart', (e) => toggle(dropdownItem));
-  dropdownItem.addEventListener('mousedown', (e) => toggle(dropdownItem));
+  dropdownItem.addEventListener('touchend', (e) => toggle(dropdownItem, e));
+  dropdownItem.addEventListener('mousedown', (e) => toggle(dropdownItem, e));
 });
