@@ -1,1 +1,1 @@
-idiot tries to write a vanilla js game without libraries like an idiot
+[Andy's personal website](https://andyli23.github.io/)
