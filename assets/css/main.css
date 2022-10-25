@@ -238,7 +238,7 @@ p {
 }
 
 #about-pg {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   max-width: 600px;
   display: flex;
   align-items: center;
@@ -265,14 +265,14 @@ p {
 
 .project-box {
   background-color: rgba(3, 0, 70, 0.5);
-  padding: 50px 30px;
+  padding: 30px;
   text-align: left;
 }
 
 .project-box-mobile {
   display: none;
-  background-color: rgba(1, 0, 35, 0.7);
-  padding: 50px 30px;
+  background-color: rgba(3, 0, 70, 0.5);
+  padding: 30px;
   text-align: center;
 }
 
@@ -284,9 +284,9 @@ p {
 }
 
 .project-btn {
-  padding: 0.2rem 1.8rem;
-  font-size: 1.4rem;
-  border: 3px solid white;
+  padding: 0.1rem 1.4rem;
+  font-size: 1.2rem;
+  border: 2px solid white;
   font-weight: 600;
   border-radius: 15px;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.2s ease-in-out;
@@ -315,8 +315,9 @@ p {
 }
 
 .project-pg {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   padding-bottom: 40px;
+  line-height: 1.8rem;
 }
 
 #projects h3 {
@@ -480,7 +481,7 @@ h3 {
   .project-box-mobile {
     display: block;
     margin: 0px 20px;
-    padding: 30px;
+    padding: 20px;
   }
   .project-box-mobile img {
     width: calc(100% - 60px);
@@ -489,11 +490,6 @@ h3 {
   .project-pg {
     margin-top: 20px;
     padding: 0px calc(50% - 350px) 20px calc(50% - 350px);
-  }
-
-  .project-btn {
-    font-size: 1.3rem;
-    padding: 0.2rem 1.3rem;
   }
 
   #project-container {
@@ -528,13 +524,13 @@ h3 {
   }
 
   .project-box-mobile {
-    padding: 20px 30px 40px 30px;
+    padding: 10px 20px 20px 20px;
     margin: 0;
   }  
 
   .project-btn {
-    font-size: 1.2rem;
-    padding: 0.3rem 1rem;
+    font-size: 1.1rem;
+    padding: 0.1rem 1rem;
   }
 
   .project-pg {
@@ -557,7 +553,7 @@ h3 {
   }  
 
   #about-pg {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }  
 
   h3 {
@@ -565,7 +561,8 @@ h3 {
   }
 
   .project-pg {
-    font-size: 1.2rem;
+    font-size: 1.0rem;
+    line-height: 1.6rem;
   }
     
       .navbar-container input[type="checkbox"],
