@@ -167,6 +167,16 @@ p {
   color: var(--color-hover);
 }
 
+.link {
+  transition: color 0.1s ease-in-out;
+  color: var(--color-hover);
+}
+
+.link:hover {
+  cursor: pointer;
+  color: var(--color-link-hover);
+}
+
 .logo {
   order: 1;
   font-size: 1.8rem;
