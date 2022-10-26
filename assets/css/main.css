@@ -469,7 +469,7 @@ h3 {
 
 #credits {
   color: var(--color-offwhite);
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   text-align: center;
 }
 
@@ -665,6 +665,21 @@ h3 {
       .navbar-container input[type="checkbox"]:checked ~ .hamburger-lines .line3 {
         transform: rotate(-35deg);
       }
+
+      #credits {
+        color: var(--color-offwhite);
+        font-size: 1.2rem;
+        text-align: center;
+      }
+
+      #contact-container a {
+        font-size: 1.0rem;
+      }
+
+      #contact-links {
+        margin: 0;
+      }
+
 }
 
 @media (max-width: 600px) {
