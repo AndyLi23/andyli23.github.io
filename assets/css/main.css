@@ -284,6 +284,7 @@ p {
 }
 
 .project-btn {
+  margin-top: 10px;
   padding: 0.1rem 1.4rem;
   font-size: 1.2rem;
   border: 2px solid white;
@@ -291,6 +292,7 @@ p {
   border-radius: 15px;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, transform 0.2s ease-in-out;
   position: relative;
+  display: inline-block;
 }
 
 .project-btn:hover {
@@ -316,7 +318,7 @@ p {
 
 .project-pg {
   font-size: 1.1rem;
-  padding-bottom: 40px;
+  padding-bottom: 20px;
   line-height: 1.8rem;
 }
 
@@ -490,6 +492,7 @@ h3 {
   .project-pg {
     margin-top: 20px;
     padding: 0px calc(50% - 350px) 20px calc(50% - 350px);
+    padding-bottom: 10px;
   }
 
   #project-container {
@@ -534,7 +537,7 @@ h3 {
   }
 
   .project-pg {
-    padding-bottom: 20px;
+    padding-bottom: 0px;
   }
 
   #project-container {
